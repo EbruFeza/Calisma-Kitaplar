@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modül 7 — Para ve Alma-Verme Dengesi Çalışma Kitabı</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage:#808966; --sage-d:#5a6347; --sage-l:#a8b48a; --sage-ll:#e8eedc;
+    --terra:#9C5D3C; --terra-l:#f0ddd3;
+    --gold:#B07E1E; --gold-l:#E8C87A;
+    --amber:#7a5c1e; --amber-l:#f5e6c0;
+    --cream:#D1C7B5; --cream-l:#FAF8F4; --cream-m:#EDE9E0;
+    --brown:#382C23; --brown-m:#6a5a4a; --brown-s:#9a8a7a;
+    --white:#FFFFFF; --line:#DDD8CE;
+    --serif:'DM Serif Display',Georgia,serif;
+    --sans:'DM Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);background:var(--cream-m);color:var(--brown);font-size:15px;line-height:1.7;}
+  @media print{.no-print{display:none!important;}body{background:white;font-size:13px;}textarea{border:1px solid #ccc!important;background:white!important;min-height:50px!important;}.section{box-shadow:none!important;border:1px solid #ddd;}}
+
+  .toolbar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--sage-d);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:50px;box-shadow:0 2px 14px rgba(56,44,35,.18);}
+  .tb-left{display:flex;align-items:center;gap:10px;}
+  .tb-badge{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--gold);color:var(--brown);padding:3px 11px;border-radius:20px;}
+  .tb-title{font-family:var(--serif);color:var(--cream-l);font-size:15px;opacity:.92;}
+  .tb-right{display:flex;gap:8px;}
+  .btn{font-family:var(--sans);font-size:12px;font-weight:500;padding:6px 14px;border-radius:6px;border:none;cursor:pointer;transition:all .15s;}
+  .btn-ghost{background:rgba(255,255,255,.14);color:var(--cream-l);}.btn-ghost:hover{background:rgba(255,255,255,.24);}
+  .btn-gold{background:var(--gold);color:var(--brown);font-weight:600;}.btn-gold:hover{background:#c48f22;}
+  .prog-wrap{position:fixed;top:50px;left:0;right:0;z-index:99;height:3px;background:rgba(0,0,0,.08);}
+  .prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold-l),var(--gold));transition:width .4s ease;}
+
+  .howto{background:var(--sage-d);border-radius:14px;padding:28px 32px;margin-bottom:24px;}
+  .howto-tag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);margin-bottom:10px;}
+  .howto h2{font-family:var(--serif);font-size:22px;color:white;margin-bottom:14px;}
+  .howto-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  @media(max-width:540px){.howto-grid{grid-template-columns:1fr;}}
+  .howto-item{background:rgba(255,255,255,.08);border-radius:9px;padding:12px 15px;display:flex;gap:10px;}
+  .howto-num{flex-shrink:0;width:24px;height:24px;background:var(--gold);color:var(--brown);border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .howto-text{font-size:12.5px;color:var(--cream-l);line-height:1.55;}
+  .howto-text strong{color:var(--gold-l);}
+
+  .container{max-width:760px;margin:0 auto;padding:72px 20px 80px;}
+
+  .cover{background:var(--amber-l);border-radius:16px;padding:44px 48px 38px;margin-bottom:24px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(56,44,35,.1);}
+  .cover::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(176,126,30,.15);}
+  .cover::after{content:'';position:absolute;right:50px;bottom:-35px;width:140px;height:140px;border-radius:50%;background:rgba(128,137,102,.08);}
+  .cover-tag{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;}
+  .cover h1{font-family:var(--serif);font-size:34px;color:var(--brown);line-height:1.18;margin-bottom:14px;}
+  .cover-line{width:48px;height:2.5px;background:var(--gold);border-radius:2px;margin-bottom:16px;}
+  .cover-desc{font-size:13.5px;color:var(--brown-m);line-height:1.75;max-width:500px;margin-bottom:24px;}
+  .cover-chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-size:11px;font-weight:500;padding:4px 13px;border-radius:20px;background:rgba(176,126,30,.12);color:var(--amber);border:1px solid rgba(176,126,30,.22);}
+
+  .section{background:var(--white);border-radius:14px;margin-bottom:20px;box-shadow:0 2px 16px rgba(56,44,35,.07);overflow:hidden;}
+  .section-header{padding:20px 28px 15px;border-bottom:1px solid var(--line);position:relative;}
+  .section-header::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold);}
+  .sec-num{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+  .section-header h2{font-family:var(--serif);font-size:19px;color:var(--brown);}
+  .section-header p{margin-top:6px;font-size:12.5px;color:var(--brown-s);font-style:italic;padding-left:10px;border-left:2px solid var(--cream);}
+  .section-body{padding:22px 28px 26px;}
+  .block{margin-bottom:22px;}.block:last-child{margin-bottom:0;}
+
+  .q-item{margin-bottom:18px;padding-bottom:18px;border-bottom:1px dashed var(--line);}
+  .q-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .q-text{font-size:14px;font-weight:500;color:var(--brown);margin-bottom:8px;padding-left:16px;position:relative;}
+  .q-text::before{content:'›';position:absolute;left:2px;color:var(--gold);font-size:16px;line-height:1.4;}
+  .q-sub{font-size:12px;color:var(--brown-s);font-weight:400;display:block;margin-top:2px;}
+  .q-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:var(--gold);color:white;border-radius:50%;font-size:10px;font-weight:700;margin-right:5px;vertical-align:middle;}
+
+  textarea{width:100%;padding:12px 14px;background:var(--cream-m);border:1px solid var(--cream);border-radius:8px;font-family:var(--sans);font-size:14px;color:var(--brown);resize:vertical;outline:none;transition:border-color .15s,box-shadow .15s;line-height:1.6;min-height:74px;}
+  textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(176,126,30,.12);background:var(--white);}
+  textarea::placeholder{color:var(--brown-s);font-style:italic;}
+
+  /* PARA İNANÇ KARTLARI */
+  .para-inanc-list{display:flex;flex-direction:column;gap:10px;}
+  .para-inanc-item{background:var(--cream-l);border:1px solid var(--line);border-radius:10px;padding:14px 16px;border-left:3px solid var(--terra);cursor:pointer;user-select:none;transition:all .15s;display:flex;align-items:flex-start;gap:10px;}
+  .para-inanc-item:hover{border-color:var(--gold);background:var(--amber-l);}
+  .para-inanc-item.checked{background:var(--amber-l);border-color:var(--gold);border-left-color:var(--gold);}
+  .pi-chk{width:18px;height:18px;flex-shrink:0;margin-top:2px;border:1.5px solid var(--cream);border-radius:4px;position:relative;background:white;transition:all .15s;}
+  .para-inanc-item.checked .pi-chk{background:var(--gold);border-color:var(--gold);}
+  .pi-chk::after{content:'✓';position:absolute;top:-1px;left:2px;font-size:11px;color:white;opacity:0;}
+  .para-inanc-item.checked .pi-chk::after{opacity:1;}
+  .pi-body{flex:1;}
+  .pi-title{font-size:13px;font-weight:700;color:var(--brown);margin-bottom:4px;}
+  .pi-desc{font-size:12px;color:var(--brown-m);line-height:1.5;}
+
+  /* KURTARICI PARA TABLOSU */
+  .kurtarici-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:540px){.kurtarici-grid{grid-template-columns:1fr;}}
+  .kurtarici-card{background:var(--cream-l);border:1px solid var(--line);border-radius:10px;padding:13px 15px;}
+  .kurtarici-title{font-size:12.5px;font-weight:700;color:var(--brown);margin-bottom:4px;}
+  .kurtarici-desc{font-size:11.5px;color:var(--brown-s);margin-bottom:8px;line-height:1.45;}
+
+  /* YENİ İNANÇ CÜMLESİ */
+  .yeni-box{background:var(--sage-ll);border:1px solid rgba(128,137,102,.25);border-radius:10px;padding:18px 20px;}
+  .yeni-desc{font-size:13px;color:var(--sage-d);margin-bottom:14px;line-height:1.65;}
+  .yeni-item{margin-bottom:12px;}
+  .yeni-label{font-size:11.5px;font-weight:700;color:var(--amber);margin-bottom:5px;}
+
+  /* İNANÇ */
+  .belief-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  @media(max-width:540px){.belief-grid{grid-template-columns:1fr;}}
+  .belief-item{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;background:var(--cream-l);border:1.5px solid var(--line);border-radius:9px;cursor:pointer;user-select:none;transition:all .15s;}
+  .belief-item:hover{border-color:var(--gold);background:var(--amber-l);}
+  .belief-item.checked{background:var(--amber-l);border-color:var(--gold);border-left:3px solid var(--gold);}
+  .chk{width:17px;height:17px;flex-shrink:0;margin-top:1px;border:1.5px solid var(--cream);border-radius:4px;position:relative;background:white;transition:all .15s;}
+  .belief-item.checked .chk{background:var(--gold);border-color:var(--gold);}
+  .chk::after{content:'✓';position:absolute;top:-1px;left:2px;font-size:11px;color:white;opacity:0;}
+  .belief-item.checked .chk::after{opacity:1;}
+  .belief-text{font-size:13px;color:var(--brown-m);line-height:1.45;}
+  .transform-note{margin-top:14px;padding:15px 18px;background:var(--sage-d);border-radius:10px;font-size:13px;color:var(--cream-l);line-height:1.75;}
+  .transform-note strong{color:var(--gold-l);}
+
+  .callout{margin-top:20px;padding:18px 22px;background:var(--amber);border-radius:12px;display:flex;gap:14px;}
+  .callout-icon{font-size:20px;flex-shrink:0;}
+  .callout-text{font-size:13.5px;color:white;line-height:1.7;}
+  .callout-text strong{color:var(--gold-l);}
+  .notes-area{width:100%;min-height:120px;padding:14px;background:#fffef9;border:1px dashed var(--cream);border-radius:8px;font-family:var(--sans);font-size:14px;color:var(--brown);resize:vertical;outline:none;line-height:1.8;}
+  .notes-area::placeholder{color:#c0b090;font-style:italic;}
+  .doc-footer{text-align:center;padding:36px 20px;color:var(--brown-s);font-size:12.5px;}
+  .toast{position:fixed;bottom:20px;right:20px;background:var(--sage-d);color:var(--cream-l);font-size:12px;padding:9px 18px;border-radius:8px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200;}
+  .toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <div class="tb-left">
+    <span class="tb-badge">Modül 7</span>
+    <span class="tb-title">Para ve Alma-Verme Dengesi — Çalışma Kitabı</span>
+  </div>
+  <div class="tb-right">
+    <button class="btn btn-ghost" onclick="clearAll()">Temizle</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 Yazdır</button>
+    <button class="btn btn-gold" onclick="saveAll()">💾 Kaydet</button>
+  </div>
+</div>
+<div class="prog-wrap no-print"><div class="prog-fill" id="prog"></div></div>
+
+<div class="container">
+
+  <div class="howto no-print">
+    <div class="howto-tag">Alma-Verme Dengesi Dönüşüm Programı</div>
+    <h2>Bu Çalışma Kitabını Nasıl Kullanırsın?</h2>
+    <div class="howto-grid">
+      <div class="howto-item"><div class="howto-num">1</div><div class="howto-text"><strong>Videoyu izledikten sonra</strong> aç. Para ile ilişkin burada netleşmeye başlar.</div></div>
+      <div class="howto-item"><div class="howto-num">2</div><div class="howto-text"><strong>Ücretsiz verme inançlarını</strong> ve kurtarıcı sendromunu dürüstçe incele.</div></div>
+      <div class="howto-item"><div class="howto-num">3</div><div class="howto-text"><strong>Para soruları egzersizini</strong> yanıtla — fiyat, ücret, suçluluk, kurtarma.</div></div>
+      <div class="howto-item"><div class="howto-num">4</div><div class="howto-text"><strong>Yeni inanç cümlelerini</strong> yaz ve her sabah sesli oku.</div></div>
+    </div>
+  </div>
+
+  <div class="cover">
+    <div class="cover-tag">Alma-Verme Dengesi Dönüşüm Programı</div>
+    <h1>Modül 7<br>Para ve<br>Alma-Verme Dengesi</h1>
+    <div class="cover-line"></div>
+    <p class="cover-desc">Maddi blokajları ve kurtarıcı sendromunun maddi boyutunu görmek. Emeğinin karşılığını almak bencillik değil — enerji döngüsünü sağlıklı tutmaktır.</p>
+    <div class="cover-chips">
+      <span class="chip">✓ Ücretsiz Verme İnançları</span>
+      <span class="chip">✓ Kurtarıcı Sendromu</span>
+      <span class="chip">✓ Para Soruları</span>
+      <span class="chip">✓ Yeni İnanç Cümleleri</span>
+      <span class="chip">✓ İnanç Listesi</span>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 1: ÜCRETSİZ VERME İNANÇLARI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 1</div>
+      <h2>Ücretsiz Vermeye Bağımlılık — Sende Var mı?</h2>
+      <p>Bu inançları oku ve içinden "evet, bu bende var" diyenleri işaretle. Her biri için dürüstçe bak.</p>
+    </div>
+    <div class="section-body">
+      <div class="para-inanc-list" id="para-inanc-list"></div>
+      <div style="margin-top:18px;">
+        <div class="q-item">
+          <div class="q-text" style="padding-left:0;">Bu inançlardan en güçlü olanı hangisi? Bu inanç seni mesleki ya da maddi olarak nasıl etkiliyor?</div>
+          <textarea placeholder="En güçlü inancı ve maddi/mesleki etkisini yaz…"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 2: EMEĞİNİN KARŞILIĞINI ALAMAMAK -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 2</div>
+      <h2>Emeğimin Karşılığını Alamamak</h2>
+      <p>Fiyat söylemek, zam yapmak, ücret almak — bunlar sende nasıl görünüyor?</p>
+    </div>
+    <div class="section-body">
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">1</span> Fiyat söylerken ya da ücret alırken içinde ne oluyor?
+          <span class="q-sub">Ses titriyor mu, sözü dolaştırıyor musun, küçümseyerek mi söylüyorsun?</span>
+        </div>
+        <textarea placeholder="O anı ve bedeninde ne hissedildiğini yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">2</span> Henüz kimse pazarlık yapmadan indirim teklif ediyor musun?
+          <span class="q-sub">Bu alışkanlık sana ne kadar kazandırıyor, ne kadar kaybettiriyor?</span>
+        </div>
+        <textarea placeholder="Bu alışkanlığın kaynağını ve bedelini yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">3</span> Para aldıktan sonra suçlu hissediyor musun?
+          <span class="q-sub">"Yeterince verdim mi?" kaygısı başlıyor mu? Bu his nereden geliyor?</span>
+        </div>
+        <textarea placeholder="O suçluluk hissini ve kaynağını yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">4</span> Emeğinin karşılığını tam alasaydın hayatın nasıl değişirdi?
+          <span class="q-sub">Maddi, duygusal, mesleki — somut hayal et.</span>
+        </div>
+        <textarea placeholder="O özgürlüğü hayal et ve yaz…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 3: KURTARICI SENDROMU VE PARA -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 3</div>
+      <h2>Kurtarıcı Sendromu ve Para</h2>
+      <p>Başkalarının maddi yükünü taşıyor musun? Her kart için dürüstçe yaz.</p>
+    </div>
+    <div class="section-body">
+      <div class="kurtarici-grid" id="kurtarici-grid"></div>
+      <div style="margin-top:16px;">
+        <div class="q-item">
+          <div class="q-text" style="padding-left:0;">Şu an kimin maddi yükünü taşıyorsun? Bu bir seçim mi, yoksa zorunluluk gibi mi hissettiriyor?</div>
+          <textarea placeholder="O kişiyi ve bu taşımanın sende yarattığı hissi yaz…"></textarea>
+        </div>
+        <div class="q-item">
+          <div class="q-text" style="padding-left:0;">Bu yükü bıraksan ne olur? Bu ihtimal seni neden korkutuyor?</div>
+          <textarea placeholder="O korkuyu ve altında yatan inancı yaz…"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 4: PARA VE ALMA-VERME SORULARI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 4</div>
+      <h2>Para ve Alma-Verme — Derinleşme Soruları</h2>
+      <p>Bu sorular para ile ilişkinin köküne iner. Dürüstçe ve şefkatle yanıtla.</p>
+    </div>
+    <div class="section-body">
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">1</span> Ne kadar verirsen değerli hissediyorsun?
+          <span class="q-sub">Değerin verdiğin miktara mı bağlı? Bu inanç nereden geliyor?</span>
+        </div>
+        <textarea placeholder="O bağlantıyı ve kaynağını yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">2</span> Paranı en çok neye harcıyorsun — kendin için mi, başkaları için mi?
+          <span class="q-sub">Son 1 ayın harcamalarına bak. Ne görüyorsun?</span>
+        </div>
+        <textarea placeholder="O dengesizliği ve nasıl hissettirdiğini yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">3</span> Kimi kurtarmak için kendi para ya da enerjini harcıyorsun?
+          <span class="q-sub">Bu bir seçim mi, yoksa zorunluluk gibi mi hissediyor?</span>
+        </div>
+        <textarea placeholder="O kişiyi ve bu dinamiği yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">4</span> Parayla sağlıklı bir ilişkin olsaydı ne farklı olurdu?
+          <span class="q-sub">Davranışlar, kararlar, hissedilen özgürlük…</span>
+        </div>
+        <textarea placeholder="O özgür ilişkiyi hayal et ve yaz…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 5: YENİ İNANÇ CÜMLELERİ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 5</div>
+      <h2>Yeni İnanç Cümlelerim</h2>
+      <p>Her eski para inancı için kendi dilinde bir dönüşüm cümlesi yaz. Her sabah sesli oku.</p>
+    </div>
+    <div class="section-body">
+      <div class="yeni-box">
+        <p class="yeni-desc">"Ben..." diye başlayan, şimdiki zamanda, olumlu bir cümle. İçten gelsin — zoraki değil.</p>
+        <div id="yeni-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 6: İNANÇ LİSTESİ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 6</div>
+      <h2>İnanç Listesi — Para İnançları</h2>
+      <p>Hâlâ içinde taşıdıklarını işaretle ve dönüşüm tekniğiyle çalış.</p>
+    </div>
+    <div class="section-body">
+      <div class="belief-grid" id="belief-grid"></div>
+      <div class="transform-note">
+        <strong>🔑 Dönüşüm Adımı:</strong> İşaretlediğin her inancı kağıda yaz. <strong>Dönüşüm tekniğini</strong> her biri için sırasıyla uygula.
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 7: NOTLAR -->
+  <div class="section">
+    <div class="section-header"><div class="sec-num">Bölüm 7</div><h2>Serbest Notlar</h2></div>
+    <div class="section-body">
+      <textarea class="notes-area" placeholder="Bu modül sende ne uyandırdı? Para ile ilişkinde ne değişti?…"></textarea>
+      <div class="callout">
+        <div class="callout-icon">💛</div>
+        <div class="callout-text">
+          <strong>Bu Modülden Götüreceğin Tek Şey:</strong><br>
+          Emeğinin karşılığını almak bencillik değil — enerji döngüsünü sağlıklı tutmaktır. Para almak, vermeyi bitirmez. Sürdürülebilir kılar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">Alma-Verme Dengesi Dönüşüm Programı &nbsp;·&nbsp; Modül 7 Çalışma Kitabı</div>
+</div>
+<div class="toast" id="toast">✓ Kaydedildi</div>
+
+<script>
+const PARA_INANCLAR = [
+  { title: '"Para alırsam o kadar samimi olmam."', desc: 'Parayla samimiyet birbirine zıt değildir. Bu inanç, emeği değersizleştirir.' },
+  { title: '"Para alırsam ruhunu öldürürsün."', desc: 'Emeğinin karşılığını almak, misyonunu kirletmez — aksine sürdürülebilir kılar.' },
+  { title: '"Ücretsiz verirsem daha çok sevilir."', desc: 'Sevgi ve ücret ayrı şeylerdir. Bu inanç, onay arayışının maddi yansımasıdır.' },
+  { title: '"Ben yardım etmek için buradayım, para kazanmak için değil."', desc: 'İkisi birbirini dışlamaz. Emeğinin karşılığını almak, vermeyi sürdürülebilir kılar.' },
+  { title: '"Arkadaştan para almak yakışmaz."', desc: 'Bu inanç, profesyonel değerini düşürür ve ilişkiyi eşitsiz kılar.' },
+  { title: '"Zam yaparsam müşterim gider."', desc: 'Gerçek değer biliniyorsa zam kabul görür. Bu korku, ilişkiyi para üzerinden kurar.' },
+];
+
+const KURTARICI_DURUMLAR = [
+  { title: 'Parası olmayan danışanı ücretsiz almak', desc: '"Ödeyemez ama çok ihtiyacı var." Sevgiden gelebilir — ama sürekli tekrarlanırsa kurtarıcı rolüdür.' },
+  { title: 'Arkadaşa bedava hizmet vermek', desc: '"Arkadaştan para almak yakışmaz." Bu inanç profesyonel değerini düşürür.' },
+  { title: 'Zor durumdaki biri için kendi parasını harcamak', desc: 'Başkasını kurtarmak için kendi güvenliğini tehlikeye atmak.' },
+  { title: 'Sürekli indirim yapmak / fazladan vermek', desc: '"Yeterli mi?" kaygısıyla her defasında beklenenden fazlasını vermek.' },
+];
+
+const YENI_ESKILER = [
+  '"Para almak bencillik"',
+  '"Ücretsiz verirsem daha çok sevilir"',
+  '"Emeğimin değeri yok"',
+  '"Para alırsam ruhumu satarım"',
+];
+
+const BELIEFS = [
+  'Para almak bencillik.',
+  'Ücretsiz verirsem daha çok sevilir.',
+  'Emeğimin karşılığını istemek ayıp.',
+  'Para alırsam samimiyetim azalır.',
+  'Zam yaparsam müşterim gider.',
+  'Para aldıktan sonra suçluluk duyuyorum.',
+  'Yardım etmek için para alınmaz.',
+  'Kurtarmak benim görevim — bedava.',
+  'Parayı hak etmiyorum.',
+  'Para, ruhu kirletir.',
+];
+
+function renderParaInanc() {
+  const g = document.getElementById('para-inanc-list');
+  g.innerHTML = PARA_INANCLAR.map((p, i) => `
+    <div class="para-inanc-item" onclick="this.classList.toggle('checked');saveAll()" data-pi="${i}">
+      <div class="pi-chk"></div>
+      <div class="pi-body">
+        <div class="pi-title">${p.title}</div>
+        <div class="pi-desc">${p.desc}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderKurtarici() {
+  const g = document.getElementById('kurtarici-grid');
+  g.innerHTML = KURTARICI_DURUMLAR.map((k, i) => `
+    <div class="kurtarici-card">
+      <div class="kurtarici-title">${k.title}</div>
+      <div class="kurtarici-desc">${k.desc}</div>
+      <textarea data-ki="${i}" style="min-height:56px;" placeholder="Bu durum bende var mı? Nasıl görünüyor?…"></textarea>
+    </div>`).join('');
+}
+
+function renderYeni() {
+  const g = document.getElementById('yeni-container');
+  g.innerHTML = YENI_ESKILER.map((e, i) => `
+    <div class="yeni-item">
+      <div class="yeni-label">Eski: ${e}</div>
+      <textarea data-yi="${i}" style="min-height:54px;" placeholder="Yeni inanç cümlem: Ben …"></textarea>
+    </div>`).join('');
+}
+
+function renderBeliefs() {
+  document.getElementById('belief-grid').innerHTML = BELIEFS.map((b, i) => `
+    <div class="belief-item" onclick="this.classList.toggle('checked');saveAll()" data-bi="${i}">
+      <div class="chk"></div><span class="belief-text">${b}</span>
+    </div>`).join('');
+}
+
+function updateProg() {
+  const tas = document.querySelectorAll('textarea');
+  const filled = [...tas].filter(t => t.value.trim()).length;
+  const checks = document.querySelectorAll('.para-inanc-item.checked, .belief-item.checked').length;
+  const total = tas.length + PARA_INANCLAR.length + BELIEFS.length;
+  document.getElementById('prog').style.width = Math.min(100, Math.round((filled + checks) / total * 100)) + '%';
+}
+
+function saveAll() {
+  const d = {};
+  document.querySelectorAll('textarea').forEach((t, i) => d['t' + i] = t.value);
+  document.querySelectorAll('.para-inanc-item').forEach((el, i) => d['p' + i] = el.classList.contains('checked'));
+  document.querySelectorAll('.belief-item').forEach((el, i) => d['b' + i] = el.classList.contains('checked'));
+  try { localStorage.setItem('avd_m7_v2', JSON.stringify(d)); } catch(e) {}
+  updateProg();
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+function loadAll() {
+  try {
+    const d = JSON.parse(localStorage.getItem('avd_m7_v2') || '{}');
+    document.querySelectorAll('textarea').forEach((t, i) => { if (d['t' + i]) t.value = d['t' + i]; });
+    document.querySelectorAll('.para-inanc-item').forEach((el, i) => { if (d['p' + i]) el.classList.add('checked'); });
+    document.querySelectorAll('.belief-item').forEach((el, i) => { if (d['b' + i]) el.classList.add('checked'); });
+  } catch(e) {}
+  updateProg();
+}
+
+function clearAll() {
+  if (!confirm('Tüm cevaplarını silmek istediğine emin misin?')) return;
+  document.querySelectorAll('textarea').forEach(t => t.value = '');
+  document.querySelectorAll('.para-inanc-item, .belief-item').forEach(el => el.classList.remove('checked'));
+  try { localStorage.removeItem('avd_m7_v2'); } catch(e) {}
+  updateProg();
+}
+
+document.addEventListener('input', saveAll);
+renderParaInanc();
+renderKurtarici();
+renderYeni();
+renderBeliefs();
+loadAll();
+</script>
+</body>
+</html>
