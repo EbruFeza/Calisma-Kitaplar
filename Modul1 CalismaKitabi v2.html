@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modül 1 — Alma-Verme Yasası Çalışma Kitabı</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage:#808966; --sage-d:#5a6347; --sage-l:#a8b48a; --sage-ll:#e8eedc;
+    --terra:#9C5D3C; --terra-l:#f0ddd3;
+    --gold:#B07E1E; --gold-l:#E8C87A;
+    --cream:#D1C7B5; --cream-l:#FAF8F4; --cream-m:#EDE9E0;
+    --brown:#382C23; --brown-m:#6a5a4a; --brown-s:#9a8a7a;
+    --white:#FFFFFF; --line:#DDD8CE;
+    --serif:'DM Serif Display',Georgia,serif;
+    --sans:'DM Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);background:var(--cream-m);color:var(--brown);font-size:15px;line-height:1.7;}
+  @media print{
+    .no-print{display:none!important;}
+    body{background:white;font-size:13px;}
+    textarea{border:1px solid #ccc!important;background:white!important;min-height:50px!important;}
+    .section{box-shadow:none!important;border:1px solid #ddd;}
+  }
+
+  /* TOOLBAR */
+  .toolbar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--sage-d);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:50px;box-shadow:0 2px 14px rgba(56,44,35,.18);}
+  .tb-left{display:flex;align-items:center;gap:10px;}
+  .tb-badge{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--terra);color:white;padding:3px 11px;border-radius:20px;}
+  .tb-title{font-family:var(--serif);color:var(--cream-l);font-size:15px;opacity:.92;}
+  .tb-right{display:flex;gap:8px;}
+  .btn{font-family:var(--sans);font-size:12px;font-weight:500;padding:6px 14px;border-radius:6px;border:none;cursor:pointer;transition:all .15s;}
+  .btn-ghost{background:rgba(255,255,255,.14);color:var(--cream-l);}
+  .btn-ghost:hover{background:rgba(255,255,255,.24);}
+  .btn-gold{background:var(--gold);color:var(--brown);font-weight:600;}
+  .btn-gold:hover{background:#c48f22;}
+
+  /* PROGRESS */
+  .prog-wrap{position:fixed;top:50px;left:0;right:0;z-index:99;height:3px;background:rgba(0,0,0,.08);}
+  .prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold-l),var(--gold));transition:width .4s ease;}
+
+  /* NASIL KULLANILIR */
+  .howto{background:var(--sage-d);color:var(--cream-l);border-radius:14px;padding:28px 32px;margin-bottom:24px;position:relative;overflow:hidden;}
+  .howto::before{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);}
+  .howto-tag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);margin-bottom:10px;}
+  .howto h2{font-family:var(--serif);font-size:22px;color:white;margin-bottom:14px;}
+  .howto-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  @media(max-width:540px){.howto-grid{grid-template-columns:1fr;}}
+  .howto-item{background:rgba(255,255,255,.08);border-radius:9px;padding:12px 15px;display:flex;gap:10px;}
+  .howto-num{flex-shrink:0;width:24px;height:24px;background:var(--gold);color:var(--brown);border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .howto-text{font-size:12.5px;color:var(--cream-l);line-height:1.55;}
+  .howto-text strong{color:var(--gold-l);}
+
+  /* LAYOUT */
+  .container{max-width:760px;margin:0 auto;padding:72px 20px 80px;}
+
+  /* KAPAK */
+  .cover{background:var(--cream-l);border-radius:16px;padding:44px 48px 38px;margin-bottom:24px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(56,44,35,.1);}
+  .cover::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(128,137,102,.1);}
+  .cover::after{content:'';position:absolute;right:50px;bottom:-35px;width:140px;height:140px;border-radius:50%;background:rgba(176,126,30,.08);}
+  .cover-tag{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--sage-d);margin-bottom:10px;}
+  .cover h1{font-family:var(--serif);font-size:34px;color:var(--brown);line-height:1.18;margin-bottom:14px;}
+  .cover-line{width:48px;height:2.5px;background:var(--sage);border-radius:2px;margin-bottom:16px;}
+  .cover-desc{font-size:13.5px;color:var(--brown-m);line-height:1.75;max-width:500px;margin-bottom:24px;}
+  .cover-chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-size:11px;font-weight:500;padding:4px 13px;border-radius:20px;background:rgba(128,137,102,.12);color:var(--sage-d);border:1px solid rgba(128,137,102,.22);}
+
+  /* SECTION */
+  .section{background:var(--white);border-radius:14px;margin-bottom:20px;box-shadow:0 2px 16px rgba(56,44,35,.07);overflow:hidden;}
+  .section-header{padding:20px 28px 15px;border-bottom:1px solid var(--line);position:relative;}
+  .section-header::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--sage);}
+  .sec-num{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:4px;}
+  .section-header h2{font-family:var(--serif);font-size:19px;color:var(--brown);line-height:1.25;}
+  .section-header p{margin-top:6px;font-size:12.5px;color:var(--brown-s);font-style:italic;padding-left:10px;border-left:2px solid var(--cream);}
+  .section-body{padding:22px 28px 26px;}
+
+  /* BLOKLAR */
+  .block{margin-bottom:22px;}
+  .block:last-child{margin-bottom:0;}
+  .block-label{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;margin-bottom:12px;}
+  .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+  .dot-s{background:var(--sage);}  .lbl-s{color:var(--sage-d);}
+  .dot-t{background:var(--terra);} .lbl-t{color:var(--terra);}
+  .dot-g{background:var(--gold);}  .lbl-g{color:var(--gold);}
+
+  /* SORU */
+  .q-item{margin-bottom:18px;padding-bottom:18px;border-bottom:1px dashed var(--line);}
+  .q-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .q-text{font-size:14px;font-weight:500;color:var(--brown);margin-bottom:8px;padding-left:16px;position:relative;}
+  .q-text::before{content:'›';position:absolute;left:2px;color:var(--sage);font-size:16px;line-height:1.4;}
+  .q-sub{font-size:12px;color:var(--brown-s);font-weight:400;display:block;margin-top:2px;}
+  .q-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:var(--sage);color:white;border-radius:50%;font-size:10px;font-weight:700;margin-right:5px;vertical-align:middle;}
+
+  textarea{width:100%;padding:12px 14px;background:var(--cream-m);border:1px solid var(--cream);border-radius:8px;font-family:var(--sans);font-size:14px;color:var(--brown);resize:vertical;outline:none;transition:border-color .15s,box-shadow .15s;line-height:1.6;min-height:74px;}
+  textarea:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(128,137,102,.12);background:var(--white);}
+  textarea::placeholder{color:var(--brown-s);font-style:italic;}
+
+  /* SCALE (1-10 puan) */
+  .scale-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px;}
+  .scale-row{display:flex;gap:6px;flex-wrap:wrap;}
+  .scale-area{background:var(--cream-l);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+  .scale-label{font-size:13px;font-weight:600;color:var(--brown);margin-bottom:10px;}
+  .scale-sub{font-size:11.5px;color:var(--brown-s);margin-bottom:10px;font-style:italic;}
+  .scale-btn{flex:1;min-width:40px;padding:8px 4px;border:1.5px solid var(--cream);border-radius:7px;background:var(--white);font-family:var(--sans);font-size:13px;font-weight:600;color:var(--brown-s);cursor:pointer;text-align:center;transition:all .15s;}
+  .scale-btn:hover{border-color:var(--sage);color:var(--sage-d);}
+  .scale-btn.sel{background:var(--sage);border-color:var(--sage);color:white;}
+  .scale-note{font-size:11px;color:var(--brown-s);margin-top:6px;}
+
+  /* İNANÇ */
+  .belief-intro{font-size:13px;color:var(--brown-m);margin-bottom:13px;font-style:italic;line-height:1.6;}
+  .belief-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  @media(max-width:540px){.belief-grid{grid-template-columns:1fr;}}
+  .belief-item{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;background:var(--cream-l);border:1.5px solid var(--line);border-radius:9px;cursor:pointer;transition:all .15s;user-select:none;}
+  .belief-item:hover{border-color:var(--sage);background:var(--sage-ll);}
+  .belief-item.checked{background:var(--sage-ll);border-color:var(--sage);border-left:3px solid var(--sage);}
+  .chk{width:17px;height:17px;flex-shrink:0;margin-top:1px;border:1.5px solid var(--cream);border-radius:4px;position:relative;background:white;transition:all .15s;}
+  .belief-item.checked .chk{background:var(--sage);border-color:var(--sage);}
+  .chk::after{content:'✓';position:absolute;top:-1px;left:2px;font-size:11px;color:white;opacity:0;}
+  .belief-item.checked .chk::after{opacity:1;}
+  .belief-text{font-size:13px;color:var(--brown-m);line-height:1.45;}
+
+  /* DÖNÜŞÜM NOTU */
+  .transform-note{margin-top:14px;padding:15px 18px;background:var(--sage-d);border-radius:10px;font-size:13px;color:var(--cream-l);line-height:1.75;}
+  .transform-note strong{color:var(--gold-l);}
+
+  /* CALLOUT */
+  .callout{margin-top:20px;padding:18px 22px;background:var(--sage);border-radius:12px;display:flex;gap:14px;}
+  .callout-icon{font-size:20px;flex-shrink:0;}
+  .callout-text{font-size:13.5px;color:var(--cream-l);line-height:1.7;}
+  .callout-text strong{color:var(--gold-l);}
+
+  /* NOTLAR */
+  .notes-area{width:100%;min-height:120px;padding:14px;background:#fffef9;border:1px dashed var(--cream);border-radius:8px;font-family:var(--sans);font-size:14px;color:var(--brown);resize:vertical;outline:none;line-height:1.8;transition:border-color .15s;}
+  .notes-area:focus{border-color:var(--gold);}
+  .notes-area::placeholder{color:#c0b090;font-style:italic;}
+
+  .doc-footer{text-align:center;padding:36px 20px;color:var(--brown-s);font-size:12.5px;line-height:1.8;}
+  .toast{position:fixed;bottom:20px;right:20px;background:var(--sage-d);color:var(--cream-l);font-size:12px;padding:9px 18px;border-radius:8px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200;}
+  .toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <div class="tb-left">
+    <span class="tb-badge">Modül 1</span>
+    <span class="tb-title">Alma-Verme Yasası — Çalışma Kitabı</span>
+  </div>
+  <div class="tb-right">
+    <button class="btn btn-ghost" onclick="clearAll()">Temizle</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 Yazdır</button>
+    <button class="btn btn-gold" onclick="saveAll()">💾 Kaydet</button>
+  </div>
+</div>
+<div class="prog-wrap no-print"><div class="prog-fill" id="prog"></div></div>
+
+<div class="container">
+
+  <!-- NASIL KULLANILIR -->
+  <div class="howto no-print">
+    <div class="howto-tag">Alma-Verme Dengesi Dönüşüm Programı</div>
+    <h2>Bu Çalışma Kitabını Nasıl Kullanırsın?</h2>
+    <div class="howto-grid">
+      <div class="howto-item"><div class="howto-num">1</div><div class="howto-text"><strong>Videoyu izledikten sonra</strong> aç. Sorular videodaki içerikle bağlantılı.</div></div>
+      <div class="howto-item"><div class="howto-num">2</div><div class="howto-text"><strong>Dürüstçe yaz.</strong> Doğru ya da yanlış cevap yok — içten gelen ilk şeyi yaz.</div></div>
+      <div class="howto-item"><div class="howto-num">3</div><div class="howto-text"><strong>İnanç listesini işaretle</strong> ve dönüşüm tekniğini her biri için uygula.</div></div>
+      <div class="howto-item"><div class="howto-num">4</div><div class="howto-text"><strong>Kaydet butonunu</strong> kullan — tarayıcı kapanınca cevapların kaybolmasın.</div></div>
+    </div>
+  </div>
+
+  <!-- KAPAK -->
+  <div class="cover">
+    <div class="cover-tag">Alma-Verme Dengesi Dönüşüm Programı</div>
+    <h1>Modül 1<br>Alma-Verme Yasası Nedir?</h1>
+    <div class="cover-line"></div>
+    <p class="cover-desc">Enerji, sistem ve psikoloji perspektifinden alma-verme döngüsünü anlamak. Bu modül programın temelidir — her şey buradan büyüyecek.</p>
+    <div class="cover-chips">
+      <span class="chip">✓ Denge Haritası</span>
+      <span class="chip">✓ Yansıtma Soruları</span>
+      <span class="chip">✓ Tükenme Analizi</span>
+      <span class="chip">✓ İnanç Listesi</span>
+      <span class="chip">✓ Notlar</span>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 1: DENGE HARİTASI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 1</div>
+      <h2>Alma-Verme Denge Haritam</h2>
+      <p>Aşağıdaki 5 hayat alanında şu anda ne kadar verip ne kadar aldığını 1–10 arası puanla. 1 = hiç almıyorum / hep veriyorum, 10 = tam denge.</p>
+    </div>
+    <div class="section-body">
+      <div id="scale-container"></div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 2: YANSITMA SORULARI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 2</div>
+      <h2>Yansıtma Soruları</h2>
+      <p>İlk aklına geleni yaz — düzeltme, düşünme. Bu sorular farkındalık için, değerlendirme için değil.</p>
+    </div>
+    <div class="section-body">
+      <div class="block">
+        <div class="q-item">
+          <div class="q-text"><span class="q-num">1</span> Vermek sana nasıl hissettiriyor?
+            <span class="q-sub">Özgür mü, zorunda mı, mutlu mu, tükenmiş mi?</span>
+          </div>
+          <textarea placeholder="İlk aklına geleni yaz…"></textarea>
+        </div>
+        <div class="q-item">
+          <div class="q-text"><span class="q-num">2</span> Almak sana nasıl hissettiriyor?
+            <span class="q-sub">Rahat mı, suçlu mu, borçlu mu, minnettar mı?</span>
+          </div>
+          <textarea placeholder="İlk duyguyu yaz…"></textarea>
+        </div>
+        <div class="q-item">
+          <div class="q-text"><span class="q-num">3</span> Hayatında sürekli verip karşılık görmediğin bir alan var mı?
+            <span class="q-sub">Nerede? Ne hissediyorsun?</span>
+          </div>
+          <textarea placeholder="Somut bir örnek ver…"></textarea>
+        </div>
+        <div class="q-item">
+          <div class="q-text"><span class="q-num">4</span> Son ne zaman bir şeyi suçluluk duymadan, içten almayı kabul ettin?
+            <span class="q-sub">Para, iltifat, sevgi, yardım — herhangi bir şey.</span>
+          </div>
+          <textarea placeholder="O anı hatırlıyor musun?…"></textarea>
+        </div>
+        <div class="q-item">
+          <div class="q-text"><span class="q-num">5</span> Alma-verme dengesi sağlıklı olsaydı hayatında ne farklı olurdu?
+            <span class="q-sub">İlişkiler, para, enerji, sağlık — hayal et ve yaz.</span>
+          </div>
+          <textarea placeholder="Mümkün olan en iyi versiyonu hayal et…"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 3: TÜKENME ANALİZİ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 3</div>
+      <h2>Tükenme Analizi — Bende Var mı?</h2>
+      <p>Sunumda bahsedilen bedensel, duygusal ve ilişkisel belirtiler. Sende hangisi var?</p>
+    </div>
+    <div class="section-body">
+      <div class="block">
+        <div class="block-label"><span class="dot dot-t"></span><span class="lbl-t">Bedensel Belirtiler</span></div>
+        <div class="belief-grid" id="belirti-bedeni"></div>
+      </div>
+      <div class="block">
+        <div class="block-label"><span class="dot dot-s"></span><span class="lbl-s">Duygusal Belirtiler</span></div>
+        <div class="belief-grid" id="belirti-duygusal"></div>
+      </div>
+      <div class="block">
+        <div class="block-label"><span class="dot dot-g"></span><span class="lbl-g">İlişkisel Belirtiler</span></div>
+        <div class="belief-grid" id="belirti-iliskisel"></div>
+      </div>
+      <div class="block">
+        <div class="q-text" style="padding-left:0;margin-bottom:8px;">En güçlü hissettiğin belirti hangisi? O belirti sana ne anlatıyor?</div>
+        <textarea placeholder="Bedenin ya da duyguların sana ne söylüyor?…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 4: İNANÇ LİSTESİ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 4</div>
+      <h2>İnanç Listesi</h2>
+      <p>İçinden "evet, bu bende var" diyenleri işaretle. Bunlar öğrenildi — ve dönüştürülebilir.</p>
+    </div>
+    <div class="section-body">
+      <div class="block">
+        <p class="belief-intro">Her işaretlediğin inanç için dönüşüm tekniğini uygula. Acele etme — her inanç ayrı bir adım.</p>
+        <div class="belief-grid" id="belief-grid"></div>
+        <div class="transform-note">
+          <strong>🔑 Dönüşüm Adımı:</strong> İşaretlediğin her inancı bir kağıda yaz. Videoda öğretilen <strong>dönüşüm tekniğini</strong> her biri için sırasıyla uygula. İnanç sayısı çok olsa bile acele etme.
+        </div>
+      </div>
+      <div class="block">
+        <div class="q-text" style="padding-left:0;margin-bottom:8px;">İşaretlediğin inançlardan en güçlü olanı hangisi? Bu inanç hayatında nasıl bir iz bıraktı?</div>
+        <textarea placeholder="En derin dokunan inancı ve izini yaz…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 5: NOTLAR -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 5</div>
+      <h2>Serbest Notlar</h2>
+      <p>Bu modülden aklında kalanlar, hissettiklerin, fark ettiklerin.</p>
+    </div>
+    <div class="section-body">
+      <textarea class="notes-area" placeholder="Videoyu izlerken ya da soruları yanıtlarken aklına gelen her şeyi buraya yazabilirsin…"></textarea>
+      <div class="callout">
+        <div class="callout-icon">🌊</div>
+        <div class="callout-text">
+          <strong>Bu Modülden Götüreceğin Tek Şey:</strong><br>
+          Alma ve verme bir hareketin iki yüzüdür. Biri olmadan diğeri mümkün değildir. Denge, enerjiyi canlı tutar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">Alma-Verme Dengesi Dönüşüm Programı &nbsp;·&nbsp; Modül 1 Çalışma Kitabı</div>
+</div>
+
+<div class="toast" id="toast">✓ Kaydedildi</div>
+
+<script>
+const SCALE_AREAS = [
+  { id:'iliskiler', label:'İlişkiler', sub:'Partner, aile, arkadaşlık' },
+  { id:'is',        label:'İş / Kariyer', sub:'Emek, katkı, ücret' },
+  { id:'para',      label:'Para / Maddi', sub:'Verme-alma dengesi' },
+  { id:'saglik',    label:'Sağlık / Beden', sub:'Kendinle ilişki' },
+  { id:'enerji',    label:'Enerji / Zaman', sub:'Nereye harcıyorsun?' },
+];
+
+const BELİRTİ_BEDENİ = ['Kronik yorgunluk','Uyku sorunları','Baş ağrısı / kas gerginliği','Sindirim sorunları','Bağışıklık zayıflığı'];
+const BELİRTİ_DUYGUSAL = ['İçten içe biriken öfke','Takdir edilmeme hissi','Bitkinlik ve anlamsızlık','Fedakârlık yaparken sevgisiz hissetmek','Sürekli tükenme'];
+const BELİRTİ_İLİŞKİSEL = ['Kırgınlık ve hayal kırıklığı','"Bu kadar verdim, neden?" döngüsü','Duygusal kapanma ve uzaklaşma','İlişkilerde dengesizlik','Gerçek bağlantıdan kopukluk'];
+
+const BELIEFS = [
+  'Vermek benim doğamda var, almak değil.',
+  'Almak beni borçlu kılar.',
+  'İhtiyaç duymak zayıflıktır.',
+  'Yeterince verdim mi, hiç bilmiyorum.',
+  'Almaya layık değilim.',
+  'Vermek beni yoruyor ama duramıyorum.',
+  'Dengesizliği hissediyorum ama çözemiyorum.',
+  'Gerçek denge benim için mümkün mü bilmiyorum.',
+];
+
+const state = {};
+
+function renderScales(){
+  const c = document.getElementById('scale-container');
+  c.innerHTML = SCALE_AREAS.map(a => `
+    <div class="scale-area" style="margin-bottom:14px;">
+      <div class="scale-label">${a.label}</div>
+      <div class="scale-sub">${a.sub}</div>
+      <div class="scale-row" id="scale-${a.id}">
+        ${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="scale-btn" data-area="${a.id}" data-val="${n}" onclick="pickScale('${a.id}',${n},this)">${n}</button>`).join('')}
+      </div>
+      <div class="scale-note" id="note-${a.id}"></div>
+      <textarea data-scale-note="${a.id}" style="margin-top:10px;min-height:58px;" placeholder="${a.label} alanında şu an neden bu puanı verdin? Kısaca yaz…"></textarea>
+    </div>`).join('');
+}
+
+function pickScale(area, val, el){
+  document.querySelectorAll(`[data-area="${area}"]`).forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  state['scale_'+area] = val;
+  const note = document.getElementById('note-'+area);
+  const msgs = {1:'Çok düşük — neredeyse hiç almıyorsun.',2:'Çok düşük.',3:'Düşük.',4:'Biraz dengesiz.',5:'Orta.',6:'Biraz iyi.',7:'İyi.',8:'Oldukça dengeli.',9:'Çok iyi.',10:'Tam denge!'};
+  note.textContent = msgs[val] || '';
+  saveAll();
+}
+
+function renderBelirti(ids, data){
+  ids.forEach(id => {
+    const g = document.getElementById(id);
+    if(!g) return;
+    const arr = id.includes('bedeni') ? BELİRTİ_BEDENİ : id.includes('duygusal') ? BELİRTİ_DUYGUSAL : BELİRTİ_İLİŞKİSEL;
+    g.innerHTML = arr.map((b,i) => `
+      <div class="belief-item" onclick="this.classList.toggle('checked');saveAll()" data-key="${id}-${i}">
+        <div class="chk"></div><span class="belief-text">${b}</span>
+      </div>`).join('');
+  });
+}
+
+function renderBeliefs(){
+  const g = document.getElementById('belief-grid');
+  g.innerHTML = BELIEFS.map((b,i)=>`
+    <div class="belief-item" onclick="this.classList.toggle('checked');saveAll()" data-bi="${i}">
+      <div class="chk"></div><span class="belief-text">${b}</span>
+    </div>`).join('');
+}
+
+function updateProg(){
+  const tas = document.querySelectorAll('textarea');
+  const filled = [...tas].filter(t=>t.value.trim()).length;
+  const checks = document.querySelectorAll('.belief-item.checked, [data-key].checked').length;
+  const scales = Object.keys(state).filter(k=>k.startsWith('scale_')).length;
+  const total = tas.length + 5 + 5;
+  const done = filled + checks + scales;
+  document.getElementById('prog').style.width = Math.min(100,Math.round(done/total*100))+'%';
+}
+
+function saveAll(){
+  const d = {...state};
+  document.querySelectorAll('textarea').forEach((t,i)=>d['ta'+i]=t.value);
+  document.querySelectorAll('.belief-item,[data-key]').forEach((el,i)=>d['ch'+i]=el.classList.contains('checked'));
+  try{localStorage.setItem('avd_m1_v2',JSON.stringify(d));}catch(e){}
+  updateProg();
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),1800);
+}
+
+function loadAll(){
+  try{
+    const d = JSON.parse(localStorage.getItem('avd_m1_v2')||'{}');
+    Object.assign(state,d);
+    document.querySelectorAll('textarea').forEach((t,i)=>{if(d['ta'+i])t.value=d['ta'+i];});
+    document.querySelectorAll('.belief-item,[data-key]').forEach((el,i)=>{if(d['ch'+i])el.classList.add('checked');});
+    SCALE_AREAS.forEach(a=>{
+      const v = d['scale_'+a.id];
+      if(v){
+        const btn = document.querySelector(`[data-area="${a.id}"][data-val="${v}"]`);
+        if(btn) btn.classList.add('sel');
+        const msgs = {1:'Çok düşük.',2:'Çok düşük.',3:'Düşük.',4:'Biraz dengesiz.',5:'Orta.',6:'Biraz iyi.',7:'İyi.',8:'Oldukça dengeli.',9:'Çok iyi.',10:'Tam denge!'};
+        const note = document.getElementById('note-'+a.id);
+        if(note) note.textContent = msgs[v]||'';
+      }
+    });
+  }catch(e){}
+  updateProg();
+}
+
+function clearAll(){
+  if(!confirm('Tüm cevaplarını silmek istediğine emin misin?')) return;
+  document.querySelectorAll('textarea').forEach(t=>t.value='');
+  document.querySelectorAll('.belief-item,[data-key]').forEach(el=>el.classList.remove('checked'));
+  SCALE_AREAS.forEach(a=>{
+    document.querySelectorAll(`[data-area="${a.id}"]`).forEach(b=>b.classList.remove('sel'));
+    const n = document.getElementById('note-'+a.id); if(n) n.textContent='';
+  });
+  Object.keys(state).forEach(k=>delete state[k]);
+  try{localStorage.removeItem('avd_m1_v2');}catch(e){}
+  updateProg();
+}
+
+document.addEventListener('input', saveAll);
+renderScales();
+renderBelirti(['belirti-bedeni','belirti-duygusal','belirti-iliskisel'],[]);
+renderBeliefs();
+loadAll();
+</script>
+</body>
+</html>

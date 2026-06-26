@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modül 2 — Çocuklukta Alma-Verme Dengesi Çalışma Kitabı</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage:      #808966;
+    --sage-d:    #5a6347;
+    --sage-l:    #a8b48a;
+    --sage-ll:   #e8eedc;
+    --terra:     #9C5D3C;
+    --terra-l:   #f0ddd3;
+    --gold:      #B07E1E;
+    --gold-l:    #E8C87A;
+    --cream:     #D1C7B5;
+    --cream-l:   #FAF8F4;
+    --cream-m:   #EDE9E0;
+    --brown:     #382C23;
+    --brown-m:   #6a5a4a;
+    --brown-s:   #9a8a7a;
+    --white:     #FFFFFF;
+    --line:      #DDD8CE;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans:  'DM Sans', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); background: var(--cream-m); color: var(--brown); font-size: 15px; line-height: 1.7; }
+
+  @media print {
+    .no-print { display: none !important; }
+    body { background: white; font-size: 13px; }
+    textarea { border: 1px solid #ccc !important; background: white !important; min-height: 55px !important; }
+    .section { box-shadow: none !important; border: 1px solid #ddd; }
+  }
+
+  /* TOOLBAR */
+  .toolbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--sage-d);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px; height: 50px;
+    box-shadow: 0 2px 14px rgba(56,44,35,0.18);
+  }
+  .toolbar-left { display: flex; align-items: center; gap: 12px; }
+  .toolbar-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: var(--terra); color: white; padding: 3px 11px; border-radius: 20px; }
+  .toolbar-title { font-family: var(--serif); color: var(--cream-l); font-size: 15px; opacity: 0.92; }
+  .toolbar-actions { display: flex; gap: 8px; }
+  .btn { font-family: var(--sans); font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; letter-spacing: 0.03em; transition: all 0.15s; }
+  .btn-ghost { background: rgba(255,255,255,0.14); color: var(--cream-l); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.24); }
+  .btn-gold { background: var(--gold); color: var(--brown); font-weight: 600; }
+  .btn-gold:hover { background: #c48f22; }
+
+  /* PROGRESS */
+  .progress-wrap { position: fixed; top: 50px; left: 0; right: 0; z-index: 99; height: 3px; background: rgba(0,0,0,0.08); }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold-l), var(--gold)); transition: width 0.4s ease; }
+
+  /* LAYOUT */
+  .container { max-width: 760px; margin: 0 auto; padding: 72px 20px 80px; }
+
+  /* KAPAK */
+  .cover {
+    background: var(--terra-l);
+    border-radius: 16px; padding: 50px 48px 42px;
+    margin-bottom: 24px; position: relative; overflow: hidden;
+    box-shadow: 0 4px 24px rgba(56,44,35,0.1);
+  }
+  .cover::before { content: ''; position: absolute; right: -40px; top: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(156,93,60,0.12); pointer-events: none; }
+  .cover::after { content: ''; position: absolute; right: 40px; bottom: -30px; width: 130px; height: 130px; border-radius: 50%; background: rgba(176,126,30,0.1); pointer-events: none; }
+  .cover-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--terra); margin-bottom: 12px; }
+  .cover h1 { font-family: var(--serif); font-size: 36px; color: var(--brown); line-height: 1.18; margin-bottom: 16px; }
+  .cover-line { width: 48px; height: 2.5px; background: var(--terra); border-radius: 2px; margin-bottom: 18px; }
+  .cover-desc { font-size: 14px; color: var(--brown-m); line-height: 1.75; max-width: 500px; margin-bottom: 28px; }
+  .cover-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cover-tag-item { font-size: 11px; font-weight: 500; padding: 4px 13px; border-radius: 20px; background: rgba(156,93,60,0.12); color: var(--terra); border: 1px solid rgba(156,93,60,0.2); }
+
+  /* HOWTO */
+  .howto { background: var(--sage-ll); border: 1px solid rgba(128,137,102,0.25); border-radius: 12px; padding: 18px 22px; margin-bottom: 24px; display: flex; gap: 14px; align-items: flex-start; }
+  .howto-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .howto-text { font-size: 13.5px; color: var(--sage-d); line-height: 1.7; }
+  .howto-text strong { color: var(--brown); }
+
+  /* SECTION */
+  .section { background: var(--white); border-radius: 14px; margin-bottom: 20px; box-shadow: 0 2px 16px rgba(56,44,35,0.07); overflow: hidden; }
+  .section-header { padding: 22px 30px 17px; border-bottom: 1px solid var(--line); position: relative; }
+  .section-header::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--terra); }
+  .section-num { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--terra); margin-bottom: 5px; }
+  .section-header h2 { font-family: var(--serif); font-size: 20px; color: var(--brown); line-height: 1.25; }
+  .section-header p { margin-top: 7px; font-size: 13px; color: var(--brown-s); font-style: italic; padding-left: 12px; border-left: 2px solid var(--cream); }
+  .section-body { padding: 24px 30px 28px; }
+
+  /* BLOCKS */
+  .block { margin-bottom: 24px; }
+  .block:last-child { margin-bottom: 0; }
+  .block-label { display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; margin-bottom: 13px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot-q { background: var(--sage); }
+  .dot-b { background: var(--terra); }
+  .dot-e { background: var(--gold); }
+  .dot-n { background: var(--cream); }
+  .lbl-q { color: var(--sage-d); }
+  .lbl-b { color: var(--terra); }
+  .lbl-e { color: var(--gold); }
+  .lbl-n { color: var(--brown-s); }
+
+  /* QUESTIONS */
+  .q-list { list-style: none; }
+  .q-item { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px dashed var(--line); }
+  .q-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-size: 14px; font-weight: 500; color: var(--brown); margin-bottom: 9px; padding-left: 18px; position: relative; }
+  .q-text::before { content: '›'; position: absolute; left: 3px; color: var(--terra); font-size: 17px; line-height: 1.35; }
+  .q-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: var(--terra); color: white; border-radius: 50%; font-size: 10px; font-weight: 700; margin-right: 6px; vertical-align: middle; margin-bottom: 2px; }
+  .q-sub { font-size: 12px; color: var(--brown-s); font-weight: 400; display: block; margin-top: 2px; }
+  textarea { width: 100%; padding: 12px 14px; background: var(--cream-m); border: 1px solid var(--cream); border-radius: 8px; font-family: var(--sans); font-size: 14px; color: var(--brown); resize: vertical; outline: none; transition: border-color 0.15s, box-shadow 0.15s; line-height: 1.6; min-height: 76px; }
+  textarea:focus { border-color: var(--terra); box-shadow: 0 0 0 3px rgba(156,93,60,0.12); background: var(--white); }
+  textarea::placeholder { color: var(--brown-s); font-style: italic; }
+
+  /* EGZERSİZ */
+  .exercise-box { background: var(--cream-l); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+  .exercise-desc { font-size: 13.5px; color: var(--brown-m); margin-bottom: 14px; line-height: 1.65; }
+  .ex-step { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+  .ex-step:last-child { margin-bottom: 0; }
+  .ex-num { flex-shrink: 0; width: 24px; height: 24px; background: var(--terra); color: white; border-radius: 50%; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+  .ex-body { flex: 1; }
+  .ex-label { font-size: 13px; font-weight: 600; color: var(--brown); margin-bottom: 5px; }
+
+  /* İNANÇ */
+  .belief-intro { font-size: 13px; color: var(--brown-m); margin-bottom: 14px; font-style: italic; line-height: 1.6; }
+  .belief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  @media (max-width: 540px) { .belief-grid { grid-template-columns: 1fr; } }
+  .belief-item { display: flex; align-items: flex-start; gap: 10px; padding: 11px 14px; background: var(--cream-l); border: 1.5px solid var(--line); border-radius: 9px; cursor: pointer; transition: all 0.15s; user-select: none; }
+  .belief-item:hover { border-color: var(--terra); background: var(--terra-l); }
+  .belief-item.checked { background: var(--terra-l); border-color: var(--terra); border-left: 3px solid var(--terra); }
+  .chk { width: 17px; height: 17px; flex-shrink: 0; margin-top: 1px; border: 1.5px solid var(--cream); border-radius: 4px; position: relative; background: white; transition: all 0.15s; }
+  .belief-item.checked .chk { background: var(--terra); border-color: var(--terra); }
+  .chk::after { content: '✓'; position: absolute; top: -1px; left: 2px; font-size: 11px; color: white; opacity: 0; transition: opacity 0.1s; }
+  .belief-item.checked .chk::after { opacity: 1; }
+  .belief-text { font-size: 13px; color: var(--brown-m); line-height: 1.45; }
+
+  /* DÖNÜŞÜM NOTU */
+  .transform-note { margin-top: 14px; padding: 16px 20px; background: var(--sage-d); border-radius: 10px; font-size: 13px; color: var(--cream-l); line-height: 1.75; }
+  .transform-note strong { color: var(--gold-l); }
+
+  /* ROL KARATLARI */
+  .rol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 540px) { .rol-grid { grid-template-columns: 1fr; } }
+  .rol-card { background: var(--cream-l); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; border-top: 3px solid var(--sage); }
+  .rol-card-title { font-size: 12.5px; font-weight: 700; color: var(--brown); margin-bottom: 8px; }
+  .rol-card textarea { min-height: 60px; }
+
+  /* BAĞLANTI TABLOSU */
+  .baglanti-table { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .baglanti-header { display: grid; grid-template-columns: 1fr 36px 1fr; background: var(--sage-d); }
+  .baglanti-header div { padding: 10px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream-l); }
+  .baglanti-header div:nth-child(2) { display: flex; align-items: center; justify-content: center; background: var(--gold); color: var(--brown); }
+  .baglanti-row { display: grid; grid-template-columns: 1fr 36px 1fr; border-top: 1px solid var(--line); }
+  .baglanti-row:nth-child(even) { background: var(--cream-l); }
+  .baglanti-left { padding: 10px 14px; font-size: 13px; font-style: italic; color: var(--sage-d); font-family: var(--serif); border-right: 1px solid var(--line); }
+  .baglanti-arrow { display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--brown-s); border-right: 1px solid var(--line); }
+  .baglanti-right { padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--brown); }
+
+  /* NOTLAR */
+  .notes-area { width: 100%; min-height: 120px; padding: 14px; background: #fffef9; border: 1px dashed var(--cream); border-radius: 8px; font-family: var(--sans); font-size: 14px; color: var(--brown); resize: vertical; outline: none; line-height: 1.8; transition: border-color 0.15s; }
+  .notes-area:focus { border-color: var(--gold); }
+  .notes-area::placeholder { color: #c0b090; font-style: italic; }
+
+  /* CALLOUT */
+  .callout { margin-top: 20px; padding: 18px 22px; background: var(--terra); border-radius: 12px; display: flex; gap: 14px; align-items: flex-start; }
+  .callout-icon { font-size: 20px; flex-shrink: 0; }
+  .callout-text { font-size: 13.5px; color: var(--cream-l); line-height: 1.7; }
+  .callout-text strong { color: var(--gold-l); }
+
+  /* FOOTER */
+  .doc-footer { text-align: center; padding: 36px 20px; color: var(--brown-s); font-size: 12.5px; line-height: 1.8; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 20px; right: 20px; background: var(--sage-d); color: var(--cream-l); font-size: 12px; padding: 9px 18px; border-radius: 8px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 200; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <div class="toolbar-left">
+    <span class="toolbar-badge">Modül 2</span>
+    <span class="toolbar-title">Çocuklukta Alma-Verme Dengesi — Çalışma Kitabı</span>
+  </div>
+  <div class="toolbar-actions">
+    <button class="btn btn-ghost" onclick="clearAll()">Temizle</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 Yazdır</button>
+    <button class="btn btn-gold" onclick="saveAll()">💾 Kaydet</button>
+  </div>
+</div>
+<div class="progress-wrap no-print">
+  <div class="progress-fill" id="prog"></div>
+</div>
+
+<div class="container">
+
+  <!-- KAPAK -->
+  <div class="cover">
+    <div class="cover-tag">Alma-Verme Dengesi Dönüşüm Programı</div>
+    <h1>Modül 2<br>Çocuklukta Alma-Verme<br>Dengesi Nasıl Bozulur?</h1>
+    <div class="cover-line"></div>
+    <p class="cover-desc">
+      Bu kitapçık kök travmalarını bulmana ve çocukluktan gelen alma-verme örüntülerini 
+      görünür kılmana yardımcı olacak. Merakla ve şefkatle ilerle.
+    </p>
+    <div class="cover-tags">
+      <span class="cover-tag-item">✓ Kök Travma Soruları</span>
+      <span class="cover-tag-item">✓ Rol Haritası</span>
+      <span class="cover-tag-item">✓ İnanç Listesi</span>
+      <span class="cover-tag-item">✓ Bağlantı Egzersizi</span>
+      <span class="cover-tag-item">✓ Notlar Alanı</span>
+    </div>
+  </div>
+
+  <!-- HOWTO -->
+  <div class="howto no-print">
+    <div class="howto-icon">🌱</div>
+    <div class="howto-text">
+      <strong>Nasıl Kullanılır?</strong> — Bu modül daha derin bir iç yolculuk gerektirir.
+      Soruları aceleye getirmeden yanıtla. Geçmişe bakarken kendine şefkatli ol —
+      o dönemdeki sen, elinden gelenin en iyisini yapıyordu.
+      <strong>Dönüşüm tekniğini</strong> işaretlediğin her inanç için uygula.
+    </div>
+  </div>
+
+  <!-- BÖLÜM 1: KÖK TRAVMA SORULARI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">Bölüm 1</div>
+      <h2>Kök Travma Soruları</h2>
+      <p>Bu modülün üç temel sorusu. Gelen ilk cevabı yaz — doğruluğunu değil, dürüstlüğünü ara.</p>
+    </div>
+    <div class="section-body">
+      <ul class="q-list">
+
+        <li class="q-item">
+          <div class="q-text">
+            <span class="q-num">1</span> Çocukken <strong>kimi kurtarmaya</strong> çalışıyordun?
+            <span class="q-sub">Annen mi, baban mı, kardeşin mi? Evi bir arada tutmaya mı çalışıyordun?</span>
+          </div>
+          <textarea placeholder="Aklına gelen ilk kişiyi ya da durumu yaz…"></textarea>
+        </li>
+
+        <li class="q-item">
+          <div class="q-text">
+            <span class="q-num">2</span> Evde <strong>kimin yükünü taşıdın</strong>?
+            <span class="q-sub">Duygusal yük mü, maddi yük mü, sorumluluk mu? Nasıl hissettirdi?</span>
+          </div>
+          <textarea placeholder="O yükü ve nasıl taşıdığını yaz…"></textarea>
+        </li>
+
+        <li class="q-item">
+          <div class="q-text">
+            <span class="q-num">3</span> <strong>Sevilmek için</strong> ne yapman gerekiyordu?
+            <span class="q-sub">Uslu olmak mı, başarmak mı, görünmez kalmak mı, başkalarına bakmak mı?</span>
+          </div>
+          <textarea placeholder="O dönemde sevginin koşulu neydi?…"></textarea>
+        </li>
+
+        <li class="q-item">
+          <div class="q-text">
+            <span class="q-num">4</span> Hayır dediğinde ya da bir şey istediğinde <strong>ne olurdu</strong>?
+            <span class="q-sub">Nasıl tepkiler alırdın? Bu sana ne öğretti?</span>
+          </div>
+          <textarea placeholder="O anları ve nasıl hissettiklerini yaz…"></textarea>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 2: ROL HARİTASI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">Bölüm 2</div>
+      <h2>Farkındalık Egzersizi — Rol Haritam</h2>
+      <p>Ailende üstlendiğin rolleri görünür kıl ve bugünkü yansımalarını fark et.</p>
+    </div>
+    <div class="section-body">
+      <div class="block">
+        <div class="exercise-box">
+          <p class="exercise-desc">
+            Çocukluğunda en belirgin olarak üstlendiğin rolü düşün. Her kutuyu doldur.
+          </p>
+
+          <div class="ex-step">
+            <div class="ex-num">1</div>
+            <div class="ex-body">
+              <div class="ex-label">Çocukluğumda üstlendiğim en belirgin rol:</div>
+              <textarea style="min-height:58px" placeholder="Örn: Ailenin güçlü çocuğu, annemin sırdaşı, kardeşlerin bakıcısı…"></textarea>
+            </div>
+          </div>
+
+          <div class="ex-step">
+            <div class="ex-num">2</div>
+            <div class="ex-body">
+              <div class="ex-label">Bu rol bana ne kazandırdı?</div>
+              <textarea style="min-height:58px" placeholder="Güvenlik mi? Sevgi mi? Görülmek mi? Kontrol hissi mi?…"></textarea>
+            </div>
+          </div>
+
+          <div class="ex-step">
+            <div class="ex-num">3</div>
+            <div class="ex-body">
+              <div class="ex-label">Bu rol benden ne aldı?</div>
+              <textarea style="min-height:58px" placeholder="Çocukluğum mu? Kendi ihtiyaçlarım mı? Sınır kurma becerisi mi?…"></textarea>
+            </div>
+          </div>
+
+          <div class="ex-step">
+            <div class="ex-num">4</div>
+            <div class="ex-body">
+              <div class="ex-label">Bu rol bugün hayatımda nasıl devam ediyor?</div>
+              <textarea style="min-height:68px" placeholder="İlişkilerinde, işinde, arkadaşlıklarında bu rolün izlerini görüyor musun?…"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rol kartları -->
+      <div class="block">
+        <div class="block-label"><span class="dot dot-e"></span><span class="lbl-e">Hangi Rolleri Üstlendin? — İşaretle ve Yaz</span></div>
+        <div class="rol-grid" id="rol-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 3: İNANÇ LİSTESİ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">Bölüm 3</div>
+      <h2>İnanç Listesi — Çocukluktan Gelen İnançlar</h2>
+      <p>İçinden "evet, bu bende var" diyenleri işaretle. Bunlar sana ait değil — öğrenildi.</p>
+    </div>
+    <div class="section-body">
+      <div class="block">
+        <p class="belief-intro">
+          Her maddeyi okurken bedenine dikkat et. Gerilme, ağırlık ya da tanıma hissi varsa işaretle.
+          Bu inançların <strong>hepsi dönüştürülebilir.</strong>
+        </p>
+        <div class="belief-grid" id="belief-grid"></div>
+        <div class="transform-note">
+          <strong>🔑 Dönüşüm Adımı:</strong> İşaretlediğin her inancı bir kağıda yaz.
+          Videoda öğretilen <strong>dönüşüm tekniğini</strong> her biri için sırasıyla uygula.
+          Bu inançlar sana ait değil — çocukken hayatta kalmak için öğrenildi.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label"><span class="dot dot-q"></span><span class="lbl-q">Derinleşme Sorusu</span></div>
+        <div class="q-text" style="padding-left:0; margin-bottom:9px;">
+          İşaretlediğin inançlardan en güçlü olanı kim öğretti sana?
+          <span class="q-sub">Söylenen bir şey mi, yoksa gözlemlenen bir şey mi? O anı hatırlıyor musun?</span>
+        </div>
+        <textarea placeholder="O inancın kaynağını ve nasıl öğrenildiğini yaz…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 4: BAĞLANTI EGZERSİZİ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">Bölüm 4</div>
+      <h2>Bağlantı Egzersizi — Çocukluk → Bugün</h2>
+      <p>Çocuklukta öğrendiklerinin bugün nasıl devam ettiğini gör.</p>
+    </div>
+    <div class="section-body">
+      <div class="block">
+        <div class="baglanti-table">
+          <div class="baglanti-header">
+            <div>Çocuklukta Öğrenilen</div>
+            <div>→</div>
+            <div>Bugün Nasıl Görünüyor?</div>
+          </div>
+          <div class="baglanti-row">
+            <div class="baglanti-left">"Hayır dersem terk edilirim"</div>
+            <div class="baglanti-arrow">→</div>
+            <div class="baglanti-right">Hayır diyememek, sınır kuramamak</div>
+          </div>
+          <div class="baglanti-row">
+            <div class="baglanti-left">"İhtiyacım olursa yük olurum"</div>
+            <div class="baglanti-arrow">→</div>
+            <div class="baglanti-right">Yardım isteyememek, her şeyi tek başına yapmak</div>
+          </div>
+          <div class="baglanti-row">
+            <div class="baglanti-left">"Vermezsem değersizim"</div>
+            <div class="baglanti-arrow">→</div>
+            <div class="baglanti-right">Sürekli vermek, duramama hissi</div>
+          </div>
+          <div class="baglanti-row">
+            <div class="baglanti-left">"Almak zayıflıktır"</div>
+            <div class="baglanti-arrow">→</div>
+            <div class="baglanti-right">Almayı reddetmek, iltifatı geri itmek</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="q-text" style="padding-left:0; margin-bottom:9px;">
+          Yukarıdaki bağlantılardan hangisi sende en güçlü yankı uyandırdı?
+          <span class="q-sub">Hayatında bunun somut bir örneğini yaz.</span>
+        </div>
+        <textarea placeholder="O bağlantı ve günlük hayatındaki yansıması…"></textarea>
+      </div>
+
+      <div class="block">
+        <div class="q-text" style="padding-left:0; margin-bottom:9px;">
+          Bu örüntü fark edilseydi, hayatında ne farklı olurdu?
+        </div>
+        <textarea placeholder="Hayallerin mi, ilişkilerin mi, kariyerin mi? Özgürce yaz…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 5: NOTLAR -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">Bölüm 5</div>
+      <h2>Serbest Notlar</h2>
+      <p>Bu modülden aklında kalanlar, hissettiklerin, fark ettiklerin.</p>
+    </div>
+    <div class="section-body">
+      <div class="block">
+        <textarea class="notes-area" style="min-height:150px"
+          placeholder="Videoyu izlerken ya da soruları yanıtlarken aklına gelen her şeyi yazabilirsin…"></textarea>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">🌱</div>
+        <div class="callout-text">
+          <strong>Bu Modülden Götüreceğin Tek Şey:</strong><br>
+          Çocuklukta öğrendiklerin hâlâ seni yönetiyor olabilir.
+          Fark etmek, değişimin ilk ve en önemli adımıdır.
+          Geçmiş, bugün değildir — ama görülmeden dönüşmez.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    Alma-Verme Dengesi Dönüşüm Programı &nbsp;·&nbsp; Modül 2 Çalışma Kitabı
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Kaydedildi</div>
+
+<script>
+const BELIEFS = [
+  'Sevilmek için bir şeyler yapmam gerekiyor.',
+  'İhtiyaçlarımı ifade edersem yük olurum.',
+  'Hayır dersem terk edilirim.',
+  'Uslu olmak beni sevilir kılar.',
+  'Başkalarının yükünü taşımak benim görevim.',
+  'Kendi ihtiyaçlarım her zaman ikinci plandadır.',
+  'Sevilmek için başarılı olmam şart.',
+  'Görülmek için sürekli bir şeyler yapmalıyım.',
+];
+
+const ROLLER = [
+  { title: '💬 Duygusal Eş', desc: 'Ebeveynin sırdaşı, duygusal desteği' },
+  { title: '🏠 Ev Yöneticisi', desc: 'Kardeşlere bakan, işleri yürüten' },
+  { title: '🌊 Kriz Yöneticisi', desc: 'Ortamı sakinleştiren, arabulucu' },
+  { title: '🛡 Koruyucu', desc: 'Güçlü olan, zayıflık gösteremeyen' },
+  { title: '⭐ Başaran', desc: 'Ailenin gururu olmak zorunda olan' },
+  { title: '👻 Görünmez', desc: 'Sorun çıkarmayan, var olmayan' },
+];
+
+function renderBeliefs() {
+  const g = document.getElementById('belief-grid');
+  g.innerHTML = BELIEFS.map((b, i) => `
+    <div class="belief-item" onclick="this.classList.toggle('checked');saveAll()" data-bi="${i}">
+      <div class="chk"></div>
+      <span class="belief-text">${b}</span>
+    </div>`).join('');
+}
+
+function renderRoller() {
+  const g = document.getElementById('rol-grid');
+  g.innerHTML = ROLLER.map((r, i) => `
+    <div class="rol-card">
+      <div class="rol-card-title">${r.title}</div>
+      <div style="font-size:12px;color:var(--brown-s);margin-bottom:7px;">${r.desc}</div>
+      <textarea data-ri="${i}" style="min-height:54px" placeholder="Bu rolü üstlendim mi? Nasıl hissettirdi?…"></textarea>
+    </div>`).join('');
+}
+
+function updateProgress() {
+  const tas = document.querySelectorAll('textarea');
+  const filled = [...tas].filter(t => t.value.trim()).length;
+  document.getElementById('prog').style.width = Math.round(filled / tas.length * 100) + '%';
+}
+
+function saveAll() {
+  const d = {};
+  document.querySelectorAll('textarea').forEach((t, i) => d['t' + i] = t.value);
+  document.querySelectorAll('.belief-item').forEach((el, i) => d['b' + i] = el.classList.contains('checked'));
+  try { localStorage.setItem('avd_m2', JSON.stringify(d)); } catch(e) {}
+  updateProgress();
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+function loadAll() {
+  try {
+    const d = JSON.parse(localStorage.getItem('avd_m2') || '{}');
+    document.querySelectorAll('textarea').forEach((t, i) => { if (d['t' + i]) t.value = d['t' + i]; });
+    document.querySelectorAll('.belief-item').forEach((el, i) => { if (d['b' + i]) el.classList.add('checked'); });
+  } catch(e) {}
+  updateProgress();
+}
+
+function clearAll() {
+  if (!confirm('Tüm cevaplarını silmek istediğine emin misin?')) return;
+  document.querySelectorAll('textarea').forEach(t => t.value = '');
+  document.querySelectorAll('.belief-item').forEach(el => el.classList.remove('checked'));
+  try { localStorage.removeItem('avd_m2'); } catch(e) {}
+  updateProgress();
+}
+
+document.addEventListener('input', saveAll);
+renderBeliefs();
+renderRoller();
+loadAll();
+</script>
+</body>
+</html>

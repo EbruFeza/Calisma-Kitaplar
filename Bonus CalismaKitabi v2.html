@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonus Modül — Alma-Verme Dengesinin 12 Gizli Sabotajı Çalışma Kitabı</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage:#808966; --sage-d:#5a6347; --sage-l:#a8b48a; --sage-ll:#e8eedc;
+    --terra:#9C5D3C; --terra-l:#f0ddd3;
+    --gold:#B07E1E; --gold-l:#E8C87A;
+    --amber:#7a5c1e; --amber-l:#f5e6c0;
+    --brown-bg:#382C23; --brown-mid:#5a4a3a; --brown-light:#8a7a6a;
+    --cream:#D1C7B5; --cream-l:#FAF8F4; --cream-m:#EDE9E0;
+    --brown:#382C23; --brown-m:#6a5a4a; --brown-s:#9a8a7a;
+    --white:#FFFFFF; --line:#DDD8CE;
+    --serif:'DM Serif Display',Georgia,serif;
+    --sans:'DM Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);background:var(--cream-m);color:var(--brown);font-size:15px;line-height:1.7;}
+  @media print{.no-print{display:none!important;}body{background:white;font-size:13px;}textarea{border:1px solid #ccc!important;background:white!important;min-height:50px!important;}.section{box-shadow:none!important;border:1px solid #ddd;}}
+
+  .toolbar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--brown-bg);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:50px;box-shadow:0 2px 14px rgba(56,44,35,.25);}
+  .tb-left{display:flex;align-items:center;gap:10px;}
+  .tb-badge{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--terra);color:white;padding:3px 11px;border-radius:20px;}
+  .tb-title{font-family:var(--serif);color:var(--cream-l);font-size:15px;opacity:.92;}
+  .tb-right{display:flex;gap:8px;}
+  .btn{font-family:var(--sans);font-size:12px;font-weight:500;padding:6px 14px;border-radius:6px;border:none;cursor:pointer;transition:all .15s;}
+  .btn-ghost{background:rgba(255,255,255,.14);color:var(--cream-l);}.btn-ghost:hover{background:rgba(255,255,255,.24);}
+  .btn-gold{background:var(--gold);color:var(--brown);font-weight:600;}.btn-gold:hover{background:#c48f22;}
+  .prog-wrap{position:fixed;top:50px;left:0;right:0;z-index:99;height:3px;background:rgba(0,0,0,.12);}
+  .prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold-l),var(--gold));transition:width .4s ease;}
+
+  .howto{background:var(--brown-bg);border-radius:14px;padding:28px 32px;margin-bottom:24px;position:relative;overflow:hidden;}
+  .howto::before{content:'';position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.04);}
+  .howto-tag{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);margin-bottom:10px;}
+  .howto h2{font-family:var(--serif);font-size:22px;color:white;margin-bottom:14px;}
+  .howto-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  @media(max-width:540px){.howto-grid{grid-template-columns:1fr;}}
+  .howto-item{background:rgba(255,255,255,.08);border-radius:9px;padding:12px 15px;display:flex;gap:10px;}
+  .howto-num{flex-shrink:0;width:24px;height:24px;background:var(--gold);color:var(--brown);border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .howto-text{font-size:12.5px;color:var(--cream-l);line-height:1.55;}
+  .howto-text strong{color:var(--gold-l);}
+
+  .container{max-width:760px;margin:0 auto;padding:72px 20px 80px;}
+
+  .cover{background:var(--brown-bg);border-radius:16px;padding:44px 48px 38px;margin-bottom:24px;position:relative;overflow:hidden;box-shadow:0 4px 28px rgba(56,44,35,.22);}
+  .cover::before{content:'';position:absolute;right:-50px;top:-50px;width:240px;height:240px;border-radius:50%;background:rgba(128,137,102,.12);}
+  .cover::after{content:'';position:absolute;left:30px;bottom:-30px;width:150px;height:150px;border-radius:50%;background:rgba(176,126,30,.1);}
+  .cover-tag{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);margin-bottom:8px;}
+  .cover-bonus{display:inline-block;background:var(--terra);color:white;font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+  .cover h1{font-family:var(--serif);font-size:32px;color:white;line-height:1.18;margin-bottom:14px;}
+  .cover-line{width:48px;height:2.5px;background:var(--gold);border-radius:2px;margin-bottom:16px;}
+  .cover-desc{font-size:13.5px;color:var(--cream-l);line-height:1.75;max-width:500px;margin-bottom:24px;opacity:.9;}
+  .cover-chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-size:11px;font-weight:500;padding:4px 13px;border-radius:20px;background:rgba(255,255,255,.1);color:var(--cream-l);border:1px solid rgba(255,255,255,.18);}
+
+  .section{background:var(--white);border-radius:14px;margin-bottom:20px;box-shadow:0 2px 16px rgba(56,44,35,.07);overflow:hidden;}
+  .section-header{padding:20px 28px 15px;border-bottom:1px solid var(--line);position:relative;}
+  .section-header::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--brown-bg);}
+  .sec-num{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--brown-m);margin-bottom:4px;}
+  .section-header h2{font-family:var(--serif);font-size:19px;color:var(--brown);}
+  .section-header p{margin-top:6px;font-size:12.5px;color:var(--brown-s);font-style:italic;padding-left:10px;border-left:2px solid var(--cream);}
+  .section-body{padding:22px 28px 26px;}
+  .block{margin-bottom:22px;}.block:last-child{margin-bottom:0;}
+
+  .q-item{margin-bottom:18px;padding-bottom:18px;border-bottom:1px dashed var(--line);}
+  .q-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .q-text{font-size:14px;font-weight:500;color:var(--brown);margin-bottom:8px;padding-left:16px;position:relative;}
+  .q-text::before{content:'›';position:absolute;left:2px;color:var(--brown-bg);font-size:16px;line-height:1.4;}
+  .q-sub{font-size:12px;color:var(--brown-s);font-weight:400;display:block;margin-top:2px;}
+  .q-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:var(--terra);color:white;border-radius:50%;font-size:10px;font-weight:700;margin-right:5px;vertical-align:middle;}
+
+  textarea{width:100%;padding:12px 14px;background:var(--cream-m);border:1px solid var(--cream);border-radius:8px;font-family:var(--sans);font-size:14px;color:var(--brown);resize:vertical;outline:none;transition:border-color .15s,box-shadow .15s;line-height:1.6;min-height:74px;}
+  textarea:focus{border-color:var(--brown-bg);box-shadow:0 0 0 3px rgba(56,44,35,.1);background:var(--white);}
+  textarea::placeholder{color:var(--brown-s);font-style:italic;}
+
+  /* 12 SABOTAJ KARTLARI */
+  .sabotaj-list{display:flex;flex-direction:column;gap:10px;}
+  .sabotaj-item{background:var(--cream-l);border:1px solid var(--line);border-radius:11px;overflow:hidden;transition:all .15s;}
+  .sabotaj-header{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;user-select:none;}
+  .sabotaj-header:hover{background:var(--cream-m);}
+  .sabotaj-item.checked .sabotaj-header{background:rgba(56,44,35,.06);}
+  .sab-chk{width:20px;height:20px;flex-shrink:0;border:1.5px solid var(--cream);border-radius:5px;position:relative;background:white;transition:all .15s;}
+  .sabotaj-item.checked .sab-chk{background:var(--brown-bg);border-color:var(--brown-bg);}
+  .sab-chk::after{content:'✓';position:absolute;top:-1px;left:3px;font-size:12px;color:white;opacity:0;}
+  .sabotaj-item.checked .sab-chk::after{opacity:1;}
+  .sab-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;}
+  .sab-title{flex:1;font-size:13.5px;font-weight:700;color:var(--brown);}
+  .sab-body{padding:0 16px 14px 56px;}
+  .sab-desc{font-size:12.5px;color:var(--brown-m);line-height:1.55;margin-bottom:10px;}
+  .sab-soru{font-size:12px;font-weight:600;color:var(--brown-s);margin-bottom:6px;}
+
+  /* ÖZET HARİTA - 12'li grid */
+  .ozet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  @media(max-width:540px){.ozet-grid{grid-template-columns:1fr 1fr;}}
+  .ozet-item{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--cream-l);border:1.5px solid var(--line);border-radius:9px;cursor:pointer;user-select:none;transition:all .15s;}
+  .ozet-item:hover{border-color:var(--brown-bg);}
+  .ozet-item.checked{background:rgba(56,44,35,.07);border-color:var(--brown-bg);}
+  .oz-chk{width:16px;height:16px;flex-shrink:0;border:1.5px solid var(--cream);border-radius:4px;position:relative;background:white;transition:all .15s;}
+  .ozet-item.checked .oz-chk{background:var(--brown-bg);border-color:var(--brown-bg);}
+  .oz-chk::after{content:'✓';position:absolute;top:-1px;left:2px;font-size:10px;color:white;opacity:0;}
+  .ozet-item.checked .oz-chk::after{opacity:1;}
+  .oz-num{font-size:9.5px;font-weight:700;color:var(--brown-s);}
+  .oz-text{font-size:12px;font-weight:600;color:var(--brown);}
+
+  /* 4 ADIM AŞMA */
+  .adim-list{display:flex;flex-direction:column;gap:10px;}
+  .adim-item{display:flex;gap:14px;padding:14px 16px;background:var(--cream-l);border:1px solid var(--line);border-radius:10px;}
+  .adim-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;margin-top:1px;}
+  .adim-body{flex:1;}
+  .adim-title{font-size:13px;font-weight:700;color:var(--brown);margin-bottom:4px;}
+  .adim-desc{font-size:12px;color:var(--brown-m);line-height:1.5;margin-bottom:8px;}
+
+  /* İNANÇ */
+  .belief-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  @media(max-width:540px){.belief-grid{grid-template-columns:1fr;}}
+  .belief-item{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;background:var(--cream-l);border:1.5px solid var(--line);border-radius:9px;cursor:pointer;user-select:none;transition:all .15s;}
+  .belief-item:hover{border-color:var(--brown-bg);}
+  .belief-item.checked{background:rgba(56,44,35,.06);border-color:var(--brown-bg);border-left:3px solid var(--brown-bg);}
+  .chk{width:17px;height:17px;flex-shrink:0;margin-top:1px;border:1.5px solid var(--cream);border-radius:4px;position:relative;background:white;transition:all .15s;}
+  .belief-item.checked .chk{background:var(--brown-bg);border-color:var(--brown-bg);}
+  .chk::after{content:'✓';position:absolute;top:-1px;left:2px;font-size:11px;color:white;opacity:0;}
+  .belief-item.checked .chk::after{opacity:1;}
+  .belief-text{font-size:13px;color:var(--brown-m);line-height:1.45;}
+  .transform-note{margin-top:14px;padding:15px 18px;background:var(--brown-bg);border-radius:10px;font-size:13px;color:var(--cream-l);line-height:1.75;}
+  .transform-note strong{color:var(--gold-l);}
+
+  .callout{margin-top:20px;padding:18px 22px;background:var(--brown-bg);border-radius:12px;display:flex;gap:14px;}
+  .callout-icon{font-size:20px;flex-shrink:0;}
+  .callout-text{font-size:13.5px;color:var(--cream-l);line-height:1.7;}
+  .callout-text strong{color:var(--gold-l);}
+  .notes-area{width:100%;min-height:120px;padding:14px;background:#fffef9;border:1px dashed var(--cream);border-radius:8px;font-family:var(--sans);font-size:14px;color:var(--brown);resize:vertical;outline:none;line-height:1.8;}
+  .notes-area::placeholder{color:#c0b090;font-style:italic;}
+  .doc-footer{text-align:center;padding:36px 20px;color:var(--brown-s);font-size:12.5px;}
+  .toast{position:fixed;bottom:20px;right:20px;background:var(--brown-bg);color:var(--cream-l);font-size:12px;padding:9px 18px;border-radius:8px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200;}
+  .toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <div class="tb-left">
+    <span class="tb-badge">Bonus Modül</span>
+    <span class="tb-title">12 Gizli Sabotaj — Çalışma Kitabı</span>
+  </div>
+  <div class="tb-right">
+    <button class="btn btn-ghost" onclick="clearAll()">Temizle</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 Yazdır</button>
+    <button class="btn btn-gold" onclick="saveAll()">💾 Kaydet</button>
+  </div>
+</div>
+<div class="prog-wrap no-print"><div class="prog-fill" id="prog"></div></div>
+
+<div class="container">
+
+  <div class="howto no-print">
+    <div class="howto-tag">Alma-Verme Dengesi Dönüşüm Programı</div>
+    <h2>Bu Çalışma Kitabını Nasıl Kullanırsın?</h2>
+    <div class="howto-grid">
+      <div class="howto-item"><div class="howto-num">1</div><div class="howto-text"><strong>Videoyu izledikten sonra</strong> aç. Bu kitap programın son adımı.</div></div>
+      <div class="howto-item"><div class="howto-num">2</div><div class="howto-text"><strong>12 sabotajı</strong> tek tek oku, hangisinin sende olduğunu işaretle.</div></div>
+      <div class="howto-item"><div class="howto-num">3</div><div class="howto-text"><strong>Her sabotaj için</strong> kısa bir yansıtma yaz — bedenini dinle.</div></div>
+      <div class="howto-item"><div class="howto-num">4</div><div class="howto-text"><strong>4 adım yöntemini</strong> en güçlü sabotajın için uygula ve günlük hayatında pratik et.</div></div>
+    </div>
+  </div>
+
+  <div class="cover">
+    <div class="cover-tag">Alma-Verme Dengesi Dönüşüm Programı</div>
+    <div class="cover-bonus">Bonus Modül</div>
+    <h1>Alma-Verme Dengesinin<br>12 Gizli Sabotajı</h1>
+    <div class="cover-line"></div>
+    <p class="cover-desc">Dönüşümün tam eşiğinde devreye giren görünmez engelleri tanımak. Sabotajı tanımak, onunla savaşmak değil — onu nazikçe kenara çekip geçmektir.</p>
+    <div class="cover-chips">
+      <span class="chip">✓ 12 Sabotaj Analizi</span>
+      <span class="chip">✓ Özet Harita</span>
+      <span class="chip">✓ 4 Adım Aşma Yöntemi</span>
+      <span class="chip">✓ Derinleşme Soruları</span>
+      <span class="chip">✓ İnanç Listesi</span>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 1: 12 GİZLİ SABOTAJ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 1</div>
+      <h2>12 Gizli Sabotaj — Hangisi Sende Var?</h2>
+      <p>Her sabotajı oku ve bedenini dinle. "Evet, bu bende var" hissi varsa işaretle ve kısa bir yansıtma yaz.</p>
+    </div>
+    <div class="section-body">
+      <div class="sabotaj-list" id="sabotaj-list"></div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 2: ÖZET HARİTA -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 2</div>
+      <h2>12 Sabotaj — Özet Harita</h2>
+      <p>Sende olan sabotajları işaretle. Bu liste, hangi alanlara öncelik vereceğini görmen için elinin altında olsun.</p>
+    </div>
+    <div class="section-body">
+      <div class="ozet-grid" id="ozet-grid"></div>
+      <div style="margin-top:16px;">
+        <div class="q-item">
+          <div class="q-text" style="padding-left:0;">İşaretlediklerinden en güçlü 3 sabotaj hangisi? Dönüştürmeye bunlardan başlayacaksın.
+            <span class="q-sub">Sıralama yapmak zorunda değilsin — ilk hissettiğin 3'ü yaz.</span>
+          </div>
+          <textarea placeholder="1.&#10;2.&#10;3."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 3: SABOTAJLARI AŞMAK — 4 ADIM -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 3</div>
+      <h2>Sabotajları Aşmak İçin 4 Adım</h2>
+      <p>Her sabotaj için aynı yol geçerlidir. En güçlü sabotajın için aşağıdaki adımları uygula.</p>
+    </div>
+    <div class="section-body">
+      <div class="adim-list" id="adim-list"></div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 4: DERINLEŞME SORULARI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 4</div>
+      <h2>Derinleşme Soruları</h2>
+      <p>Bu soruları en güçlü hissettiğin sabotaj için yanıtla. Dürüstçe ve şefkatle yaz.</p>
+    </div>
+    <div class="section-body">
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">1</span> Bu sabotajı ne zaman ve hangi durumda fark ediyorsun?
+          <span class="q-sub">Tetikleyici nedir? Hangi an devreye giriyor?</span>
+        </div>
+        <textarea placeholder="O tetikleyici anı yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">2</span> Bu sabotaj seni nasıl korumaya çalışıyor?
+          <span class="q-sub">Bilinçdışın seni neden korumak istiyor? Hangi tehlikeden?</span>
+        </div>
+        <textarea placeholder="O korumayı ve altındaki korkuyu yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">3</span> Bu sabotaj olmasa hayatın nasıl farklı olurdu?
+          <span class="q-sub">Maddi, duygusal, ilişkisel — somut hayal et.</span>
+        </div>
+        <textarea placeholder="O özgürlüğü hayal et ve yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">4</span> Bu sabotaj devreye girdiğinde kendine ne söyleyebilirsin?
+          <span class="q-sub">Şefkatli ve güçlendirici bir cümle yaz.</span>
+        </div>
+        <textarea placeholder="Kendine şefkatle söyleyeceğin cümle: …"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">5</span> Bu sabotajı nazikçe kenara bırakmak için bu hafta ne yapabilirsin?
+          <span class="q-sub">Küçük bir adım. Büyük değil — sadece bir hareket.</span>
+        </div>
+        <textarea placeholder="Küçük ama gerçek bir adım yaz…"></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-text"><span class="q-num">6</span> Hangi sabotajın dönüşmesi sana en çok özgürlük getirir?
+          <span class="q-sub">İlk aklına geleni yaz — o genellikle en güçlü olanıdır.</span>
+        </div>
+        <textarea placeholder="O sabotajı ve neden en güçlü olduğunu yaz…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 5: İNANÇ LİSTESİ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 5</div>
+      <h2>Kapsamlı İnanç Listesi</h2>
+      <p>Tüm programdan gelen ve hâlâ içinde taşıdığın inançları işaretle. Bu liste, dönüşüm çalışmalarına devam ederken sana yol gösterecek.</p>
+    </div>
+    <div class="section-body">
+      <div class="belief-grid" id="belief-grid"></div>
+      <div class="transform-note">
+        <strong>🔑 Son Dönüşüm Adımı:</strong> İşaretlediğin her inancı kağıda yaz. <strong>Dönüşüm tekniğini</strong> her biri için sırasıyla uygula. Bu program boyunca ne kadar cesur oldun — bak.
+      </div>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 6: NOTLAR ve KAPANIŞ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">Bölüm 6</div>
+      <h2>Serbest Notlar ve Programa Veda</h2>
+    </div>
+    <div class="section-body">
+      <textarea class="notes-area" style="min-height:130px;" placeholder="Bu bonus modül sende ne uyandırdı? Sabotajları görmek nasıl hissettirdi? Bundan sonrası için niyetlerin…"></textarea>
+      <div class="callout">
+        <div class="callout-icon">🌟</div>
+        <div class="callout-text">
+          <strong>Bonus Modülden Götüreceğin Tek Şey:</strong><br>
+          Sabotajı tanımak, onunla savaşmak değil — onu nazikçe kenara çekip geçmektir. Fark etmek yeter. Geri kalanı zaten biliyorsun.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">Alma-Verme Dengesi Dönüşüm Programı &nbsp;·&nbsp; Bonus Modül Çalışma Kitabı</div>
+</div>
+<div class="toast" id="toast">✓ Kaydedildi</div>
+
+<script>
+const SABOTAJLAR = [
+  { n:'01', color:'#9C5D3C', title:'Suçluluk', desc:'"Değişirsem ailem ne der? Onlardan daha iyi olamam." Sevdiklerini geride bırakma korkusu. Suçluluk, iyileşmeyi bilinçdışında tehlikeli kılar.', soru:'Bu suçluluk seni nerede durduruyor?' },
+  { n:'02', color:'#B07E1E', title:'Değersizlik', desc:'"Bu kadar iyilik ben değilim. Bunu hak etmiyorum." En derin sabotaj. Tüm dönüşüm çalışmalarını bilinçdışında engeller. Fark edilmeden geçilmez.', soru:'"Hak etmiyorum" hissi hayatında nerede en güçlü?' },
+  { n:'03', color:'#808966', title:'Kontrol İhtiyacı', desc:'"Değişirsem hayatım kontrolden çıkar." Belirsizlik korkusu, kişiyi bilinen ağrıya tutar. Kontrol güvenlik yanılsamasıdır.', soru:'Neyi kontrol etmekte zorlanıyorsun ve bu seni nasıl tutuyor?' },
+  { n:'04', color:'#7a5c1e', title:'Terk Edilme Korkusu', desc:'"Değişirsem beni bırakırlar." Bu korku, ilişkideki rolde kalmayı zorunlu kılar. Gerçek bağlantı değişime uyum sağlar.', soru:'Kim seni bırakır diye korkuyorsun? Bu inanç gerçek mi?' },
+  { n:'05', color:'#9C5D3C', title:'Reddedilme Korkusu', desc:'"Gerçek benliğimi gösterirsem reddedilir, sevilmem." Bu korku kişiyi maske arkasında tutar. Gerçek dönüşüm görünür olmayı gerektirir.', soru:'Gerçek seni görmelerinden ne korkuyorsun?' },
+  { n:'06', color:'#5a6347', title:'Yetersizlik', desc:'"Yeterince çalışmadım, yeterince iyi değilim, hâlâ hazır değilim." Mükemmeliyetçilik başlamayı erteler. Hazırlık değil — niyet yeterlidir.', soru:'"Hâlâ hazır değilim" derken gerçekte ne bekliyorsun?' },
+  { n:'07', color:'#B07E1E', title:'Görünme Korkusu', desc:'"Değişirsem herkes beni görür, yargılar." Başarı da tıpkı başarısızlık gibi görünür olmayı getirir. Her ikisi de geçilebilir.', soru:'Görünür olmak sana ne çağrıştırıyor?' },
+  { n:'08', color:'#7a5c1e', title:'Kahraman Rolü', desc:'"Ben güçlüyüm, düşemem, yardıma muhtaç değilim." Bu rol destek almayı imkânsız kılar. Gerçek güç kırılganlığı kabul etmekten gelir.', soru:'Bu güçlü rolü bırakmak nasıl hissettiriyor?' },
+  { n:'09', color:'#9C5D3C', title:'Kurtarıcı Rolü', desc:'"Ben değişirsem onları kim kurtaracak?" Başkalarına ihtiyaç duyulma, kişiyi mevcut rolde tutar. Gerçek sevgi büyümeye izin verir.', soru:'Kurtarmaktan vazgeçersen ne olur?' },
+  { n:'10', color:'#808966', title:'Kurban Rolü', desc:'"Zaten hep böyle oldu, değişmez." Mağduriyet kimliği sorumluluk almayı engeller. Kurban olmak ile mağdur olmak arasında büyük fark var.', soru:'"Değişmez" inancı hayatında nerede en güçlü?' },
+  { n:'11', color:'#B07E1E', title:'Minnet Korkusu', desc:'"Minnettarlık hissedersem zayıf olurum, bağımlı kalırım." Bu inanç almayı ve gerçek bağlantı kurmayı engeller. Minnet ilişkiyi derinleştirir.', soru:'Minnettarlık sana neden zayıflık gibi hissettiriyor?' },
+  { n:'12', color:'#5a6347', title:'Başarısızlık Korkusu', desc:'"Ya değişirsem ve yine aynı yere dönersem? Ya bu da işe yaramazsa?" Bu korku denemeyi engeller. Her deneme, olmak istediğin kişiye bir adım daha yaklaşmaktır.', soru:'"Ya işe yaramazsa?" sesini ne zaman duyuyorsun?' },
+];
+
+const ADIMLAR = [
+  { color:'#9C5D3C', title:'Fark Et', desc:'Sabotajı adıyla tanı. "Ah, bu değersizlik sabotajı devreye girdi." İsimlendirmek, sabotajı küçültür.', placeholder:'En güçlü sabotajımı fark ettiğim son an:…' },
+  { color:'#B07E1E', title:'Şefkatle Kabul Et', desc:'"Bu bir dönem beni korudu. Teşekkür ederim — ama artık ihtiyacım yok." Savaşmak güçlendirir, kabullenip bırakmak zayıflatır.', placeholder:'Bu sabotaja şefkatle söyleyeceğim şey:…' },
+  { color:'#808966', title:'Bedeni Dinle', desc:'Sabotaj bedeninde nerede hissediyorsun? Göğüste mi, midende mi, boğazında mı? Nefes al ve o alana şefkat gönder.', placeholder:'Bu sabotajı bedenimde nerede hissediyorum:…' },
+  { color:'#5a6347', title:'Yeni Bir Seçim Yap', desc:'"Bu an, bu sabotaja rağmen ne seçerim?" Küçük bir adım. Sabotaj yokken gibi davranmak zamanla sabotajı dönüştürür.', placeholder:'Bu sabotaja rağmen bu hafta yapacağım bir seçim:…' },
+];
+
+const BELIEFS = [
+  'Değişirsem sevilmem.',
+  'Bu kadar iyilik bana olmaz.',
+  'Değişirsem yalnız kalırım.',
+  'Ben bunu hak etmiyorum.',
+  'Değişmek tehlikelidir.',
+  'Gerçek benliğimi gösterirsem reddedilirim.',
+  'Hâlâ hazır değilim.',
+  'Ya değişirsem ve yine aynı yere dönersem?',
+  'Ben güçlüyüm, yardıma muhtaç değilim.',
+  'Ben değişirsem onları kim kurtaracak?',
+  'Zaten hep böyle oldu, değişmez.',
+  'Minnettarlık zayıflıktır.',
+];
+
+function renderSabotajlar() {
+  const g = document.getElementById('sabotaj-list');
+  g.innerHTML = SABOTAJLAR.map((s, i) => `
+    <div class="sabotaj-item" data-si="${i}">
+      <div class="sabotaj-header" onclick="toggleSabotaj(${i})">
+        <div class="sab-chk"></div>
+        <div class="sab-num" style="background:${s.color};">${s.n}</div>
+        <div class="sab-title">${s.title}</div>
+      </div>
+      <div class="sab-body">
+        <div class="sab-desc">${s.desc}</div>
+        <div class="sab-soru">${s.soru}</div>
+        <textarea data-st="${i}" style="min-height:54px;" placeholder="Kısa yansıtma yaz…"></textarea>
+      </div>
+    </div>`).join('');
+}
+
+function toggleSabotaj(i) {
+  const el = document.querySelector(`[data-si="${i}"]`);
+  el.classList.toggle('checked');
+  saveAll();
+}
+
+function renderOzet() {
+  const g = document.getElementById('ozet-grid');
+  g.innerHTML = SABOTAJLAR.map((s, i) => `
+    <div class="ozet-item" onclick="this.classList.toggle('checked');saveAll()" data-oi="${i}">
+      <div class="oz-chk"></div>
+      <div>
+        <div class="oz-num">${s.n}</div>
+        <div class="oz-text">${s.title}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderAdimlar() {
+  const g = document.getElementById('adim-list');
+  g.innerHTML = ADIMLAR.map((a, i) => `
+    <div class="adim-item">
+      <div class="adim-num" style="background:${a.color};">${i+1}</div>
+      <div class="adim-body">
+        <div class="adim-title">${a.title}</div>
+        <div class="adim-desc">${a.desc}</div>
+        <textarea data-ad="${i}" style="min-height:58px;" placeholder="${a.placeholder}"></textarea>
+      </div>
+    </div>`).join('');
+}
+
+function renderBeliefs() {
+  document.getElementById('belief-grid').innerHTML = BELIEFS.map((b, i) => `
+    <div class="belief-item" onclick="this.classList.toggle('checked');saveAll()" data-bi="${i}">
+      <div class="chk"></div><span class="belief-text">${b}</span>
+    </div>`).join('');
+}
+
+function updateProg() {
+  const tas = document.querySelectorAll('textarea');
+  const filled = [...tas].filter(t => t.value.trim()).length;
+  const checks = document.querySelectorAll('.sabotaj-item.checked, .ozet-item.checked, .belief-item.checked').length;
+  const total = tas.length + SABOTAJLAR.length + BELIEFS.length;
+  document.getElementById('prog').style.width = Math.min(100, Math.round((filled + checks) / total * 100)) + '%';
+}
+
+function saveAll() {
+  const d = {};
+  document.querySelectorAll('textarea').forEach((t, i) => d['t' + i] = t.value);
+  document.querySelectorAll('.sabotaj-item').forEach((el, i) => d['s' + i] = el.classList.contains('checked'));
+  document.querySelectorAll('.ozet-item').forEach((el, i) => d['o' + i] = el.classList.contains('checked'));
+  document.querySelectorAll('.belief-item').forEach((el, i) => d['b' + i] = el.classList.contains('checked'));
+  try { localStorage.setItem('avd_bonus_v2', JSON.stringify(d)); } catch(e) {}
+  updateProg();
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+function loadAll() {
+  try {
+    const d = JSON.parse(localStorage.getItem('avd_bonus_v2') || '{}');
+    document.querySelectorAll('textarea').forEach((t, i) => { if (d['t' + i]) t.value = d['t' + i]; });
+    document.querySelectorAll('.sabotaj-item').forEach((el, i) => { if (d['s' + i]) el.classList.add('checked'); });
+    document.querySelectorAll('.ozet-item').forEach((el, i) => { if (d['o' + i]) el.classList.add('checked'); });
+    document.querySelectorAll('.belief-item').forEach((el, i) => { if (d['b' + i]) el.classList.add('checked'); });
+  } catch(e) {}
+  updateProg();
+}
+
+function clearAll() {
+  if (!confirm('Tüm cevaplarını silmek istediğine emin misin?')) return;
+  document.querySelectorAll('textarea').forEach(t => t.value = '');
+  document.querySelectorAll('.sabotaj-item, .ozet-item, .belief-item').forEach(el => el.classList.remove('checked'));
+  try { localStorage.removeItem('avd_bonus_v2'); } catch(e) {}
+  updateProg();
+}
+
+document.addEventListener('input', saveAll);
+renderSabotajlar();
+renderOzet();
+renderAdimlar();
+renderBeliefs();
+loadAll();
+</script>
+</body>
+</html>
